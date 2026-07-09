@@ -1,0 +1,82 @@
+[
+  {
+    "pipeline_name": "customer_ingestion",
+    "failure_time": "2026-07-08T01:30:00Z",
+    "root_cause": "Upstream API timeout",
+    "error_details": "API endpoint /v2/customers returned HTTP 504 after 30s timeout on all 3 retry attempts",
+    "cluster_logs": "WARN: Memory usage at 91% on ingestion-cluster-01. GC pressure detected.",
+    "dependency_status": {
+      "customer_api": "degraded",
+      "bronze_layer": "healthy"
+    },
+    "suggested_actions": [
+      "Increase API timeout from 30s to 60s",
+      "Enable autoscaling on the ingestion cluster",
+      "Retry failed ingestion task after memory is freed"
+    ]
+  },
+  {
+    "pipeline_name": "customer_sync",
+    "failure_time": "2026-07-07T22:45:00Z",
+    "root_cause": "Database connection timeout",
+    "error_details": "Unable to establish connection to crm_db within 30 second timeout. Network latency spike detected.",
+    "cluster_logs": "ERROR: Connection pool exhausted. 50/50 connections in use.",
+    "dependency_status": {
+      "crm_db": "unhealthy",
+      "data_lake": "healthy"
+    },
+    "suggested_actions": [
+      "Increase connection pool size from 50 to 100",
+      "Check CRM database health and network connectivity",
+      "Implement circuit breaker for CRM connections"
+    ]
+  },
+  {
+    "pipeline_name": "finance_dag",
+    "failure_time": "2026-07-07T04:00:00Z",
+    "root_cause": "Upstream dependency SLA breach",
+    "error_details": "finance_raw_load did not complete before the 04:00 SLA deadline. Job was still running at 03:58.",
+    "cluster_logs": "INFO: finance_dag waited 45 minutes for upstream. Timeout triggered at SLA boundary.",
+    "dependency_status": {
+      "finance_raw_load": "failed",
+      "gl_reconciliation": "skipped"
+    },
+    "suggested_actions": [
+      "Investigate finance_raw_load performance degradation",
+      "Adjust SLA window or add buffer time",
+      "Enable parallel processing for raw load stage"
+    ]
+  },
+  {
+    "pipeline_name": "inventory_pipeline",
+    "failure_time": "2026-07-08T00:15:00Z",
+    "root_cause": "Schema mismatch",
+    "error_details": "product_category field type changed from STRING to INT in source. 3 of 12 partitions rejected.",
+    "cluster_logs": "ERROR: Schema validation failed for partitions 4, 7, 11. Expected STRING, got INT.",
+    "dependency_status": {
+      "warehouse_db": "healthy",
+      "inventory_api": "schema_changed"
+    },
+    "suggested_actions": [
+      "Update schema mapping for product_category field",
+      "Re-run failed partitions after schema fix",
+      "Add schema change detection alert"
+    ]
+  },
+  {
+    "pipeline_name": "customer_data_pipeline",
+    "failure_time": "2026-07-08T02:15:00Z",
+    "root_cause": "API timeout with memory pressure",
+    "error_details": "Upstream API returned timeout errors. Cluster memory at 91% during peak ingestion.",
+    "cluster_logs": "CRITICAL: OOM warning on ingestion-cluster-01. Memory 91%, CPU 91%.",
+    "dependency_status": {
+      "api_gateway": "degraded",
+      "raw_storage": "healthy"
+    },
+    "suggested_actions": [
+      "Scale up ingestion cluster memory",
+      "Increase API timeout configuration",
+      "Schedule ingestion during off-peak hours"
+    ]
+  }
+]

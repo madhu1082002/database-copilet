@@ -1,0 +1,180 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "DataOps Copilot API",
+    "description": "Custom connector for DataOps Copilot — GenAI-Powered Data Ops Assistant (S3-D-08)",
+    "version": "1.0.0"
+  },
+  "host": "YOUR_NGROK_URL.ngrok-free.app",
+  "basePath": "/",
+  "schemes": ["https"],
+  "consumes": ["application/json"],
+  "produces": ["application/json"],
+  "paths": {
+    "/health": {
+      "get": {
+        "summary": "Health check",
+        "operationId": "HealthCheck",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": { "type": "string" },
+                "service": { "type": "string" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/dashboard": {
+      "get": {
+        "summary": "Get pipeline dashboard summary",
+        "operationId": "GetDashboard",
+        "responses": {
+          "200": {
+            "description": "Dashboard data",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "total_pipelines": { "type": "integer" },
+                "success_count": { "type": "integer" },
+                "failed_count": { "type": "integer" },
+                "running_count": { "type": "integer" },
+                "potential_monthly_savings_inr": { "type": "integer" },
+                "pipelines": {
+                  "type": "array",
+                  "items": { "type": "object" }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/pipeline-status": {
+      "get": {
+        "summary": "Get pipeline run status",
+        "operationId": "GetPipelineStatus",
+        "parameters": [
+          {
+            "name": "pipeline",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "description": "Filter by pipeline name"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Pipeline status list",
+            "schema": { "type": "object" }
+          }
+        }
+      }
+    },
+    "/failure-diagnosis": {
+      "get": {
+        "summary": "Get failure diagnosis data",
+        "operationId": "GetFailureDiagnosis",
+        "parameters": [
+          {
+            "name": "pipeline",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Failure diagnosis data",
+            "schema": { "type": "object" }
+          }
+        }
+      }
+    },
+    "/optimization": {
+      "get": {
+        "summary": "Get optimization recommendations",
+        "operationId": "GetOptimization",
+        "responses": {
+          "200": {
+            "description": "Cluster optimization data",
+            "schema": { "type": "object" }
+          }
+        }
+      }
+    },
+    "/query": {
+      "post": {
+        "summary": "Send natural-language query to AI",
+        "operationId": "SendQuery",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "required": ["query"],
+              "properties": {
+                "query": {
+                  "type": "string",
+                  "description": "Natural language question"
+                },
+                "category": {
+                  "type": "string",
+                  "description": "pipeline_status | failure_diagnosis | optimization"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "AI response",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "query": { "type": "string" },
+                "intent": { "type": "string" },
+                "pipeline": { "type": "string" },
+                "response": { "type": "string" },
+                "category": { "type": "string" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/feedback": {
+      "post": {
+        "summary": "Submit thumbs up/down feedback",
+        "operationId": "SendFeedback",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "required": ["query_id", "feedback"],
+              "properties": {
+                "query_id": { "type": "integer" },
+                "feedback": { "type": "string", "enum": ["up", "down"] }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Feedback saved",
+            "schema": { "type": "object" }
+          }
+        }
+      }
+    }
+  }
+}

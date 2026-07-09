@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DataOps Copilot</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <div class="app">
+    <header class="header">
+      <div class="header-brand">
+        <div class="logo">⚡</div>
+        <div>
+          <h1>DataOps Copilot</h1>
+          <p class="subtitle">GenAI-Powered Data Ops Assistant</p>
+        </div>
+      </div>
+      <div class="header-meta">
+        <span class="badge">S3-D-08 · pSIDDHI</span>
+      </div>
+    </header>
+
+    <main class="main">
+      <section class="dashboard" id="dashboard">
+        <h2>Pipeline Dashboard</h2>
+        <div class="stats-grid" id="stats-grid">
+          <div class="stat-card loading">Loading...</div>
+        </div>
+        <div class="pipeline-list" id="pipeline-list"></div>
+      </section>
+
+      <section class="chat-panel">
+        <div class="chat-header">
+          <h2>Ask DataOps Copilot</h2>
+          <select id="category-select" class="category-select">
+            <option value="">Auto-detect category</option>
+            <option value="pipeline_status">Pipeline Status</option>
+            <option value="failure_diagnosis">Failure Diagnosis</option>
+            <option value="optimization">Optimization</option>
+          </select>
+        </div>
+
+        <div class="chat-messages" id="chat-messages">
+          <div class="message assistant">
+            <div class="message-avatar">🤖</div>
+            <div class="message-content">
+              <p>Hello! I'm <strong>DataOps Copilot</strong>. Ask me about pipeline status, failure diagnosis, or cost optimization.</p>
+              <div class="suggestions">
+                <button class="suggestion" data-query="Did sales_etl run today?">Did sales_etl run today?</button>
+                <button class="suggestion" data-query="Why did customer_ingestion fail?">Why did customer_ingestion fail?</button>
+                <button class="suggestion" data-query="Can we reduce compute costs?">Can we reduce compute costs?</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <form class="chat-input-form" id="chat-form">
+          <input
+            type="text"
+            id="chat-input"
+            placeholder="Ask a question... e.g. Which pipelines failed last night?"
+            autocomplete="off"
+          />
+          <button type="submit" id="send-btn">Send</button>
+        </form>
+      </section>
+    </main>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
