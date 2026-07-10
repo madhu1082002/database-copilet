@@ -1,4 +1,4 @@
-# DataOps Copilot
+# DataOps Copilot (database-copilet)
 
 **GenAI-Powered Data Ops Assistant** — based on the IMPACT pSIDDHI proposal (S3-D-08).
 
