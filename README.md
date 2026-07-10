@@ -15,7 +15,33 @@ Web UI (Dashboard + Chat)  →  Flask REST API  →  Gemini AI + Mock Pipeline D
 | Frontend | HTML/CSS/JS (web alternative to Power Apps) |
 | Backend | Python Flask |
 | AI Engine | Google Gemini 2.5 Flash (with rule-based mock fallback) |
-| Data | JSON mock datasets + SQLite query logging |
+| Data (Phase 1) | JSON mock datasets + SQLite query logging |
+| Data (Phase 2) | Databricks Free Edition REST API (job runs, clusters) |
+
+## Data Sources
+
+| Mode | When | Source |
+|------|------|--------|
+| **Mock JSON** | Default | `backend/data/*.json` |
+| **Databricks** | `USE_DATABRICKS=true` | Live job runs + cluster metrics |
+| **SQLite** | Always | Query audit log (`dataops.db`) |
+
+### Enable Databricks (Phase 2)
+
+1. Create a [Databricks Free Edition](https://www.databricks.com/learn/free-edition) workspace
+2. Generate a **Personal Access Token**: User Settings → Developer → Access tokens
+3. Add to `.env`:
+
+```env
+USE_DATABRICKS=true
+DATABRICKS_HOST=https://your-workspace.cloud.databricks.com
+DATABRICKS_TOKEN=your_token_here
+```
+
+4. Restart Flask: `py app.py`
+5. Check connection: `GET http://localhost:5000/databricks/status`
+
+If Databricks is unavailable, the app **automatically falls back** to mock JSON data.
 
 ## Features
 
@@ -54,6 +80,7 @@ Without API keys, the app uses intelligent rule-based mock responses grounded in
 
 | Method | Endpoint | Description |
 |--------|----------|-------------|
+| GET | `/databricks/status` | Databricks connection status |
 | GET | `/dashboard` | Pipeline dashboard summary |
 | GET | `/pipeline-status` | Pipeline run data |
 | GET | `/failure-diagnosis` | Failure logs and root causes |

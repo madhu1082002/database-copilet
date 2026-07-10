@@ -17,7 +17,17 @@ def client():
 def test_health(client):
     res = client.get("/health")
     assert res.status_code == 200
-    assert res.get_json()["status"] == "ok"
+    data = res.get_json()
+    assert data["status"] == "ok"
+    assert "data_source" in data
+
+
+def test_databricks_status(client):
+    res = client.get("/databricks/status")
+    assert res.status_code == 200
+    data = res.get_json()
+    assert "configured" in data
+    assert data.get("data_source", "mock_json") == "mock_json"
 
 
 def test_pipeline_status(client):

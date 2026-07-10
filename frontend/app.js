@@ -13,6 +13,15 @@ async function loadDashboard() {
     const res = await fetch(`${API_BASE}/dashboard`);
     const data = await res.json();
 
+    const sourceLabel =
+      data.data_source === "databricks_tables"
+        ? "Databricks Tables"
+        : data.data_source === "databricks"
+          ? "Databricks Live"
+          : "Mock JSON";
+    const badge = document.querySelector(".badge");
+    if (badge) badge.textContent = `S3-D-08 · ${sourceLabel}`;
+
     statsGrid.innerHTML = `
       <div class="stat-card info">
         <div class="label">Total Pipelines</div>
