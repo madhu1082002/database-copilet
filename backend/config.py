@@ -38,3 +38,10 @@ GEMINI_API_KEY = GEMINI_API_KEYS[0] if GEMINI_API_KEYS else ""
 USE_MOCK_AI = os.environ.get("USE_MOCK_AI", "true").lower() == "true" or not GEMINI_API_KEYS
 
 CORS_ORIGINS = os.environ.get("CORS_ORIGINS", "*")
+
+DATABRICKS_HOST = os.environ.get("DATABRICKS_HOST", "").strip()
+DATABRICKS_TOKEN = os.environ.get("DATABRICKS_TOKEN", "").strip()
+DATABRICKS_WAREHOUSE_ID = os.environ.get("DATABRICKS_WAREHOUSE_ID", "").strip()
+DATABRICKS_CATALOG = os.environ.get("DATABRICKS_CATALOG", "workspace").strip()
+DATABRICKS_SCHEMA = os.environ.get("DATABRICKS_SCHEMA", "dataops_copilot").strip()
+USE_DATABRICKS = os.environ.get("USE_DATABRICKS", "false").lower() == "true"

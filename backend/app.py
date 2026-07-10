@@ -6,6 +6,7 @@ from flask_cors import CORS
 from config import CORS_ORIGINS
 from models.database import init_db, log_query, save_feedback
 from services import data_service
+from services import databricks_service
 from services.gemini_service import generate_response
 from services.intent_classifier import classify_intent
 from services.prompt_builder import build_context_for_intent, build_prompt
@@ -25,21 +26,32 @@ def index():
 
 @app.route("/health")
 def health():
-    return jsonify({"status": "ok", "service": "DataOps Copilot"})
+    return jsonify({
+        "status": "ok",
+        "service": "DataOps Copilot",
+        "data_source": data_service.get_data_source(),
+    })
+
+
+@app.route("/databricks/status")
+def databricks_status():
+    status = databricks_service.get_connection_status()
+    status["data_source"] = data_service.get_data_source()
+    return jsonify(status)
 
 
 @app.route("/pipeline-status")
 def pipeline_status():
     name = request.args.get("pipeline")
     pipelines = data_service.get_pipeline_status(name)
-    return jsonify({"pipelines": pipelines, "count": len(pipelines)})
+    return jsonify({"pipelines": pipelines, "count": len(pipelines), "data_source": data_service.get_data_source()})
 
 
 @app.route("/failure-diagnosis")
 def failure_diagnosis():
     name = request.args.get("pipeline")
     failures = data_service.get_failure_diagnosis(name)
-    return jsonify({"failures": failures, "count": len(failures)})
+    return jsonify({"failures": failures, "count": len(failures), "data_source": data_service.get_data_source()})
 
 
 @app.route("/optimization")
@@ -51,6 +63,7 @@ def optimization():
         "clusters": clusters,
         "optimization_opportunities": opportunities,
         "total_potential_savings_inr": total_savings,
+        "data_source": data_service.get_data_source(),
     })
 
 
