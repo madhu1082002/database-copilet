@@ -1,122 +1,842 @@
 [
   {
     "pipeline_name": "customer_data_pipeline",
-    "status": "failed",
-    "run_time": "2026-07-08T02:15:00Z",
-    "duration_minutes": 47,
-    "error_message": "Upstream API returned timeout errors after 3 retry attempts",
+    "status": "success",
+    "run_time": "2026-07-01T09:53:00Z",
+    "duration_minutes": 15,
+    "error_message": null,
     "cluster_id": "ingestion-cluster-01",
-    "cpu_usage": 91,
-    "memory_usage": 91,
-    "dependencies": ["api_gateway", "raw_storage"],
-    "last_success": "2026-07-07T02:10:00Z"
+    "cpu_usage": 50,
+    "memory_usage": 49,
+    "dependencies": [
+      "api_gateway",
+      "raw_storage"
+    ],
+    "last_success": "2026-07-01T09:53:00Z"
   },
   {
     "pipeline_name": "customer_ingestion",
     "status": "failed",
-    "run_time": "2026-07-08T01:30:00Z",
-    "duration_minutes": 52,
-    "error_message": "Retry attempts exceeded (3/3). Cluster memory usage reached 91%",
+    "run_time": "2026-07-05T19:52:00Z",
+    "duration_minutes": 25,
+    "error_message": "Connection timeout to source database after 30s",
     "cluster_id": "ingestion-cluster-01",
-    "cpu_usage": 88,
-    "memory_usage": 91,
-    "dependencies": ["customer_api", "bronze_layer"],
-    "last_success": "2026-07-06T01:25:00Z"
+    "cpu_usage": 84,
+    "memory_usage": 29,
+    "dependencies": [
+      "customer_api",
+      "bronze_layer"
+    ],
+    "last_success": "2026-06-30T19:52:00Z"
   },
   {
     "pipeline_name": "sales_etl",
-    "status": "success",
-    "run_time": "2026-07-08T03:00:00Z",
-    "duration_minutes": 23,
-    "error_message": null,
+    "status": "partial_failure",
+    "run_time": "2026-07-03T16:58:00Z",
+    "duration_minutes": 15,
+    "error_message": "5 of 20 micro-batches skipped due to malformed records",
     "cluster_id": "etl-cluster-02",
-    "cpu_usage": 42,
-    "memory_usage": 38,
-    "dependencies": ["sales_db", "warehouse"],
-    "last_success": "2026-07-08T03:00:00Z"
+    "cpu_usage": 26,
+    "memory_usage": 45,
+    "dependencies": [
+      "sales_db",
+      "warehouse"
+    ],
+    "last_success": "2026-07-01T16:58:00Z"
   },
   {
     "pipeline_name": "customer_sync",
-    "status": "failed",
-    "run_time": "2026-07-07T22:45:00Z",
-    "duration_minutes": 35,
-    "error_message": "Connection timeout to source database after 30s",
+    "status": "running",
+    "run_time": "2026-07-02T19:22:00Z",
+    "duration_minutes": null,
+    "error_message": null,
     "cluster_id": "sync-cluster-03",
-    "cpu_usage": 65,
-    "memory_usage": 72,
-    "dependencies": ["crm_db", "data_lake"],
-    "last_success": "2026-07-06T22:40:00Z"
+    "cpu_usage": 18,
+    "memory_usage": 89,
+    "dependencies": [
+      "crm_db",
+      "data_lake"
+    ],
+    "last_success": "2026-07-01T19:22:00Z"
   },
   {
     "pipeline_name": "finance_dag",
-    "status": "failed",
-    "run_time": "2026-07-07T04:00:00Z",
-    "duration_minutes": 78,
-    "error_message": "Upstream dependency finance_raw_load did not complete before SLA deadline",
+    "status": "success",
+    "run_time": "2026-07-01T06:16:00Z",
+    "duration_minutes": 81,
+    "error_message": null,
     "cluster_id": "finance-cluster-01",
-    "cpu_usage": 55,
-    "memory_usage": 60,
-    "dependencies": ["finance_raw_load", "gl_reconciliation"],
-    "last_success": "2026-07-05T04:05:00Z"
+    "cpu_usage": 68,
+    "memory_usage": 46,
+    "dependencies": [
+      "finance_raw_load",
+      "gl_reconciliation"
+    ],
+    "last_success": "2026-07-01T06:16:00Z"
   },
   {
     "pipeline_name": "inventory_pipeline",
-    "status": "partial_failure",
-    "run_time": "2026-07-08T00:15:00Z",
-    "duration_minutes": 41,
-    "error_message": "3 of 12 partitions failed due to schema mismatch in product_category field",
+    "status": "success",
+    "run_time": "2026-07-05T05:09:00Z",
+    "duration_minutes": 12,
+    "error_message": null,
     "cluster_id": "inventory-cluster-02",
-    "cpu_usage": 58,
-    "memory_usage": 49,
-    "dependencies": ["warehouse_db", "inventory_api"],
-    "last_success": "2026-07-07T00:10:00Z"
+    "cpu_usage": 35,
+    "memory_usage": 72,
+    "dependencies": [
+      "warehouse_db",
+      "inventory_api"
+    ],
+    "last_success": "2026-07-05T05:09:00Z"
   },
   {
     "pipeline_name": "analytics_daily",
     "status": "success",
-    "run_time": "2026-07-08T04:30:00Z",
-    "duration_minutes": 67,
+    "run_time": "2026-07-06T13:47:00Z",
+    "duration_minutes": 55,
     "error_message": null,
     "cluster_id": "analytics_cluster",
-    "cpu_usage": 18,
-    "memory_usage": 22,
-    "dependencies": ["warehouse", "reporting_db"],
-    "last_success": "2026-07-08T04:30:00Z"
+    "cpu_usage": 28,
+    "memory_usage": 29,
+    "dependencies": [
+      "warehouse",
+      "reporting_db"
+    ],
+    "last_success": "2026-07-06T13:47:00Z"
   },
   {
     "pipeline_name": "marketing_attribution",
     "status": "success",
-    "run_time": "2026-07-08T05:00:00Z",
-    "duration_minutes": 31,
+    "run_time": "2026-07-04T09:06:00Z",
+    "duration_minutes": 56,
     "error_message": null,
     "cluster_id": "marketing-cluster-01",
-    "cpu_usage": 35,
-    "memory_usage": 40,
-    "dependencies": ["ad_platform_api", "crm_db"],
-    "last_success": "2026-07-08T05:00:00Z"
+    "cpu_usage": 92,
+    "memory_usage": 51,
+    "dependencies": [
+      "ad_platform_api",
+      "crm_db"
+    ],
+    "last_success": "2026-07-04T09:06:00Z"
   },
   {
     "pipeline_name": "hr_payroll_etl",
-    "status": "running",
-    "run_time": "2026-07-08T06:00:00Z",
-    "duration_minutes": null,
-    "error_message": null,
+    "status": "partial_failure",
+    "run_time": "2026-07-03T07:26:00Z",
+    "duration_minutes": 27,
+    "error_message": "3 of 12 partitions failed due to schema mismatch in product_category field",
     "cluster_id": "hr-cluster-01",
-    "cpu_usage": 72,
-    "memory_usage": 68,
-    "dependencies": ["hr_system", "payroll_db"],
-    "last_success": "2026-07-07T06:00:00Z"
+    "cpu_usage": 63,
+    "memory_usage": 28,
+    "dependencies": [
+      "hr_system",
+      "payroll_db"
+    ],
+    "last_success": "2026-06-28T07:26:00Z"
   },
   {
     "pipeline_name": "product_catalog_sync",
     "status": "success",
-    "run_time": "2026-07-08T01:00:00Z",
-    "duration_minutes": 18,
+    "run_time": "2026-07-01T12:21:00Z",
+    "duration_minutes": 58,
     "error_message": null,
     "cluster_id": "catalog-cluster-01",
-    "cpu_usage": 28,
+    "cpu_usage": 88,
+    "memory_usage": 42,
+    "dependencies": [
+      "pim_system",
+      "search_index"
+    ],
+    "last_success": "2026-07-01T12:21:00Z"
+  },
+  {
+    "pipeline_name": "orders_fulfillment_etl",
+    "status": "failed",
+    "run_time": "2026-07-07T17:18:00Z",
+    "duration_minutes": 41,
+    "error_message": "Rate limit exceeded on external API (429 Too Many Requests)",
+    "cluster_id": "etl-cluster-02",
+    "cpu_usage": 52,
+    "memory_usage": 28,
+    "dependencies": [
+      "orders_db",
+      "warehouse"
+    ],
+    "last_success": "2026-07-05T17:18:00Z"
+  },
+  {
+    "pipeline_name": "warehouse_inventory_sync",
+    "status": "partial_failure",
+    "run_time": "2026-07-04T03:43:00Z",
+    "duration_minutes": 70,
+    "error_message": "Partial write failure: 85% of records loaded successfully",
+    "cluster_id": "inventory-cluster-02",
+    "cpu_usage": 61,
+    "memory_usage": 38,
+    "dependencies": [
+      "wms_api",
+      "inventory_db"
+    ],
+    "last_success": "2026-07-01T03:43:00Z"
+  },
+  {
+    "pipeline_name": "logistics_tracking_etl",
+    "status": "success",
+    "run_time": "2026-07-05T08:16:00Z",
+    "duration_minutes": 94,
+    "error_message": null,
+    "cluster_id": "logistics-cluster-01",
+    "cpu_usage": 24,
+    "memory_usage": 39,
+    "dependencies": [
+      "carrier_api",
+      "tracking_db"
+    ],
+    "last_success": "2026-07-05T08:16:00Z"
+  },
+  {
+    "pipeline_name": "supplier_master_sync",
+    "status": "failed",
+    "run_time": "2026-07-05T14:50:00Z",
+    "duration_minutes": 71,
+    "error_message": "Connection timeout to source database after 30s",
+    "cluster_id": "sync-cluster-03",
+    "cpu_usage": 63,
+    "memory_usage": 52,
+    "dependencies": [
+      "vendor_portal",
+      "mdm_hub"
+    ],
+    "last_success": "2026-06-30T14:50:00Z"
+  },
+  {
+    "pipeline_name": "pricing_engine_refresh",
+    "status": "success",
+    "run_time": "2026-07-04T17:07:00Z",
+    "duration_minutes": 19,
+    "error_message": null,
+    "cluster_id": "ml-cluster-01",
+    "cpu_usage": 44,
+    "memory_usage": 22,
+    "dependencies": [
+      "feature_store",
+      "pricing_db"
+    ],
+    "last_success": "2026-07-04T17:07:00Z"
+  },
+  {
+    "pipeline_name": "fraud_detection_batch",
+    "status": "partial_failure",
+    "run_time": "2026-07-03T22:43:00Z",
+    "duration_minutes": 20,
+    "error_message": "Partial write failure: 85% of records loaded successfully",
+    "cluster_id": "ml-cluster-01",
+    "cpu_usage": 42,
+    "memory_usage": 90,
+    "dependencies": [
+      "transactions_stream",
+      "ml_models"
+    ],
+    "last_success": "2026-06-30T22:43:00Z"
+  },
+  {
+    "pipeline_name": "churn_prediction_etl",
+    "status": "success",
+    "run_time": "2026-07-02T21:35:00Z",
+    "duration_minutes": 94,
+    "error_message": null,
+    "cluster_id": "ml-cluster-02",
+    "cpu_usage": 73,
+    "memory_usage": 36,
+    "dependencies": [
+      "customer_features",
+      "model_registry"
+    ],
+    "last_success": "2026-07-02T21:35:00Z"
+  },
+  {
+    "pipeline_name": "recommendation_features",
+    "status": "success",
+    "run_time": "2026-07-05T13:13:00Z",
+    "duration_minutes": 83,
+    "error_message": null,
+    "cluster_id": "ml-cluster-02",
+    "cpu_usage": 83,
+    "memory_usage": 51,
+    "dependencies": [
+      "clickstream",
+      "feature_store"
+    ],
+    "last_success": "2026-07-05T13:13:00Z"
+  },
+  {
+    "pipeline_name": "compliance_audit_export",
+    "status": "failed",
+    "run_time": "2026-07-03T15:03:00Z",
+    "duration_minutes": 86,
+    "error_message": "Job killed by cluster manager due to OOM on executor",
+    "cluster_id": "compliance-cluster-01",
+    "cpu_usage": 66,
+    "memory_usage": 64,
+    "dependencies": [
+      "audit_logs",
+      "compliance_db"
+    ],
+    "last_success": "2026-07-01T15:03:00Z"
+  },
+  {
+    "pipeline_name": "gdpr_data_retention",
+    "status": "running",
+    "run_time": "2026-07-06T17:28:00Z",
+    "duration_minutes": null,
+    "error_message": null,
+    "cluster_id": "compliance-cluster-01",
+    "cpu_usage": 78,
+    "memory_usage": 29,
+    "dependencies": [
+      "customer_pii",
+      "archive_storage"
+    ],
+    "last_success": "2026-07-05T17:28:00Z"
+  },
+  {
+    "pipeline_name": "tax_reporting_dag",
+    "status": "failed",
+    "run_time": "2026-07-07T00:51:00Z",
+    "duration_minutes": 92,
+    "error_message": "Source table locked by concurrent ETL job",
+    "cluster_id": "finance-cluster-01",
+    "cpu_usage": 35,
+    "memory_usage": 72,
+    "dependencies": [
+      "gl_reconciliation",
+      "tax_engine"
+    ],
+    "last_success": "2026-07-02T00:51:00Z"
+  },
+  {
+    "pipeline_name": "accounts_receivable_etl",
+    "status": "success",
+    "run_time": "2026-07-04T03:22:00Z",
+    "duration_minutes": 71,
+    "error_message": null,
+    "cluster_id": "finance-cluster-02",
+    "cpu_usage": 82,
+    "memory_usage": 50,
+    "dependencies": [
+      "billing_system",
+      "finance_dwh"
+    ],
+    "last_success": "2026-07-04T03:22:00Z"
+  },
+  {
+    "pipeline_name": "budget_forecast_pipeline",
+    "status": "running",
+    "run_time": "2026-07-08T02:17:00Z",
+    "duration_minutes": null,
+    "error_message": null,
+    "cluster_id": "finance-cluster-02",
+    "cpu_usage": 29,
+    "memory_usage": 86,
+    "dependencies": [
+      "erp_system",
+      "forecast_db"
+    ],
+    "last_success": "2026-07-07T02:17:00Z"
+  },
+  {
+    "pipeline_name": "web_analytics_ingestion",
+    "status": "failed",
+    "run_time": "2026-07-01T08:39:00Z",
+    "duration_minutes": 26,
+    "error_message": "Checkpoint corruption detected in streaming job",
+    "cluster_id": "analytics_cluster",
+    "cpu_usage": 52,
+    "memory_usage": 73,
+    "dependencies": [
+      "ga4_export",
+      "bronze_layer"
+    ],
+    "last_success": "2026-06-29T08:39:00Z"
+  },
+  {
+    "pipeline_name": "session_replay_etl",
+    "status": "success",
+    "run_time": "2026-07-05T09:28:00Z",
+    "duration_minutes": 34,
+    "error_message": null,
+    "cluster_id": "analytics_cluster",
+    "cpu_usage": 79,
     "memory_usage": 31,
-    "dependencies": ["pim_system", "search_index"],
-    "last_success": "2026-07-08T01:00:00Z"
+    "dependencies": [
+      "event_stream",
+      "warehouse"
+    ],
+    "last_success": "2026-07-05T09:28:00Z"
+  },
+  {
+    "pipeline_name": "email_campaign_etl",
+    "status": "partial_failure",
+    "run_time": "2026-07-05T00:07:00Z",
+    "duration_minutes": 93,
+    "error_message": "2 of 8 output files failed validation checks",
+    "cluster_id": "marketing-cluster-01",
+    "cpu_usage": 79,
+    "memory_usage": 43,
+    "dependencies": [
+      "mailchimp_api",
+      "crm_db"
+    ],
+    "last_success": "2026-07-03T00:07:00Z"
+  },
+  {
+    "pipeline_name": "social_media_ingestion",
+    "status": "success",
+    "run_time": "2026-07-06T11:26:00Z",
+    "duration_minutes": 79,
+    "error_message": null,
+    "cluster_id": "marketing-cluster-02",
+    "cpu_usage": 15,
+    "memory_usage": 59,
+    "dependencies": [
+      "social_api",
+      "sentiment_db"
+    ],
+    "last_success": "2026-07-06T11:26:00Z"
+  },
+  {
+    "pipeline_name": "seo_rankings_sync",
+    "status": "success",
+    "run_time": "2026-07-07T00:01:00Z",
+    "duration_minutes": 58,
+    "error_message": null,
+    "cluster_id": "marketing-cluster-02",
+    "cpu_usage": 54,
+    "memory_usage": 48,
+    "dependencies": [
+      "serp_api",
+      "reporting_db"
+    ],
+    "last_success": "2026-07-07T00:01:00Z"
+  },
+  {
+    "pipeline_name": "support_ticket_etl",
+    "status": "success",
+    "run_time": "2026-07-02T03:55:00Z",
+    "duration_minutes": 22,
+    "error_message": null,
+    "cluster_id": "support-cluster-01",
+    "cpu_usage": 77,
+    "memory_usage": 26,
+    "dependencies": [
+      "zendesk_api",
+      "support_dwh"
+    ],
+    "last_success": "2026-07-02T03:55:00Z"
+  },
+  {
+    "pipeline_name": "nps_survey_pipeline",
+    "status": "running",
+    "run_time": "2026-07-02T12:11:00Z",
+    "duration_minutes": null,
+    "error_message": null,
+    "cluster_id": "support-cluster-01",
+    "cpu_usage": 31,
+    "memory_usage": 34,
+    "dependencies": [
+      "survey_tool",
+      "crm_db"
+    ],
+    "last_success": "2026-07-01T12:11:00Z"
+  },
+  {
+    "pipeline_name": "employee_onboarding_etl",
+    "status": "failed",
+    "run_time": "2026-07-02T08:50:00Z",
+    "duration_minutes": 45,
+    "error_message": "Job killed by cluster manager due to OOM on executor",
+    "cluster_id": "hr-cluster-01",
+    "cpu_usage": 82,
+    "memory_usage": 72,
+    "dependencies": [
+      "ats_system",
+      "hr_dwh"
+    ],
+    "last_success": "2026-06-30T08:50:00Z"
+  },
+  {
+    "pipeline_name": "time_attendance_sync",
+    "status": "running",
+    "run_time": "2026-07-06T01:15:00Z",
+    "duration_minutes": null,
+    "error_message": null,
+    "cluster_id": "hr-cluster-02",
+    "cpu_usage": 54,
+    "memory_usage": 69,
+    "dependencies": [
+      "timeclock_api",
+      "payroll_db"
+    ],
+    "last_success": "2026-07-05T01:15:00Z"
+  },
+  {
+    "pipeline_name": "benefits_enrollment_etl",
+    "status": "running",
+    "run_time": "2026-07-01T06:37:00Z",
+    "duration_minutes": null,
+    "error_message": null,
+    "cluster_id": "hr-cluster-02",
+    "cpu_usage": 71,
+    "memory_usage": 84,
+    "dependencies": [
+      "benefits_portal",
+      "hr_system"
+    ],
+    "last_success": "2026-06-30T06:37:00Z"
+  },
+  {
+    "pipeline_name": "iot_sensor_ingestion",
+    "status": "success",
+    "run_time": "2026-07-05T13:46:00Z",
+    "duration_minutes": 20,
+    "error_message": null,
+    "cluster_id": "iot-cluster-01",
+    "cpu_usage": 58,
+    "memory_usage": 20,
+    "dependencies": [
+      "mqtt_broker",
+      "timeseries_db"
+    ],
+    "last_success": "2026-07-05T13:46:00Z"
+  },
+  {
+    "pipeline_name": "device_telemetry_agg",
+    "status": "failed",
+    "run_time": "2026-07-05T18:23:00Z",
+    "duration_minutes": 40,
+    "error_message": "Rate limit exceeded on external API (429 Too Many Requests)",
+    "cluster_id": "iot-cluster-01",
+    "cpu_usage": 15,
+    "memory_usage": 27,
+    "dependencies": [
+      "timeseries_db",
+      "warehouse"
+    ],
+    "last_success": "2026-07-04T18:23:00Z"
+  },
+  {
+    "pipeline_name": "manufacturing_oee_etl",
+    "status": "success",
+    "run_time": "2026-07-07T20:05:00Z",
+    "duration_minutes": 54,
+    "error_message": null,
+    "cluster_id": "iot-cluster-02",
+    "cpu_usage": 24,
+    "memory_usage": 83,
+    "dependencies": [
+      "shop_floor_plc",
+      "metrics_db"
+    ],
+    "last_success": "2026-07-07T20:05:00Z"
+  },
+  {
+    "pipeline_name": "quality_inspection_dag",
+    "status": "success",
+    "run_time": "2026-07-03T00:47:00Z",
+    "duration_minutes": 81,
+    "error_message": null,
+    "cluster_id": "iot-cluster-02",
+    "cpu_usage": 31,
+    "memory_usage": 91,
+    "dependencies": [
+      "inspection_api",
+      "quality_db"
+    ],
+    "last_success": "2026-07-03T00:47:00Z"
+  },
+  {
+    "pipeline_name": "vendor_invoice_etl",
+    "status": "failed",
+    "run_time": "2026-07-05T14:10:00Z",
+    "duration_minutes": 72,
+    "error_message": "Connection timeout to source database after 30s",
+    "cluster_id": "procurement-cluster-01",
+    "cpu_usage": 67,
+    "memory_usage": 42,
+    "dependencies": [
+      "invoice_api",
+      "finance_dwh"
+    ],
+    "last_success": "2026-07-04T14:10:00Z"
+  },
+  {
+    "pipeline_name": "purchase_order_sync",
+    "status": "success",
+    "run_time": "2026-07-03T14:38:00Z",
+    "duration_minutes": 66,
+    "error_message": null,
+    "cluster_id": "procurement-cluster-01",
+    "cpu_usage": 67,
+    "memory_usage": 77,
+    "dependencies": [
+      "erp_system",
+      "procurement_db"
+    ],
+    "last_success": "2026-07-03T14:38:00Z"
+  },
+  {
+    "pipeline_name": "contract_renewal_etl",
+    "status": "partial_failure",
+    "run_time": "2026-07-07T15:17:00Z",
+    "duration_minutes": 95,
+    "error_message": "Partial write failure: 85% of records loaded successfully",
+    "cluster_id": "procurement-cluster-02",
+    "cpu_usage": 27,
+    "memory_usage": 25,
+    "dependencies": [
+      "legal_docs",
+      "crm_db"
+    ],
+    "last_success": "2026-07-03T15:17:00Z"
+  },
+  {
+    "pipeline_name": "data_quality_monitor",
+    "status": "failed",
+    "run_time": "2026-07-07T01:45:00Z",
+    "duration_minutes": 36,
+    "error_message": "Authentication failed: OAuth token expired for source API",
+    "cluster_id": "platform-cluster-01",
+    "cpu_usage": 39,
+    "memory_usage": 86,
+    "dependencies": [
+      "warehouse",
+      "dq_results"
+    ],
+    "last_success": "2026-07-03T01:45:00Z"
+  },
+  {
+    "pipeline_name": "schema_drift_detector",
+    "status": "success",
+    "run_time": "2026-07-06T06:43:00Z",
+    "duration_minutes": 71,
+    "error_message": null,
+    "cluster_id": "platform-cluster-01",
+    "cpu_usage": 46,
+    "memory_usage": 27,
+    "dependencies": [
+      "catalog_api",
+      "metadata_db"
+    ],
+    "last_success": "2026-07-06T06:43:00Z"
+  },
+  {
+    "pipeline_name": "lineage_metadata_sync",
+    "status": "success",
+    "run_time": "2026-07-02T08:54:00Z",
+    "duration_minutes": 18,
+    "error_message": null,
+    "cluster_id": "platform-cluster-02",
+    "cpu_usage": 84,
+    "memory_usage": 19,
+    "dependencies": [
+      "airflow_api",
+      "lineage_db"
+    ],
+    "last_success": "2026-07-02T08:54:00Z"
+  },
+  {
+    "pipeline_name": "cost_allocation_etl",
+    "status": "running",
+    "run_time": "2026-07-05T16:50:00Z",
+    "duration_minutes": null,
+    "error_message": null,
+    "cluster_id": "platform-cluster-02",
+    "cpu_usage": 67,
+    "memory_usage": 80,
+    "dependencies": [
+      "cloud_billing",
+      "cost_db"
+    ],
+    "last_success": "2026-07-04T16:50:00Z"
+  },
+  {
+    "pipeline_name": "backup_verification_dag",
+    "status": "success",
+    "run_time": "2026-07-03T22:03:00Z",
+    "duration_minutes": 19,
+    "error_message": null,
+    "cluster_id": "platform-cluster-03",
+    "cpu_usage": 36,
+    "memory_usage": 66,
+    "dependencies": [
+      "backup_storage",
+      "audit_logs"
+    ],
+    "last_success": "2026-07-03T22:03:00Z"
+  },
+  {
+    "pipeline_name": "disaster_recovery_test",
+    "status": "success",
+    "run_time": "2026-07-04T01:44:00Z",
+    "duration_minutes": 70,
+    "error_message": null,
+    "cluster_id": "platform-cluster-03",
+    "cpu_usage": 51,
+    "memory_usage": 72,
+    "dependencies": [
+      "dr_cluster",
+      "validation_db"
+    ],
+    "last_success": "2026-07-04T01:44:00Z"
+  },
+  {
+    "pipeline_name": "cdc_mysql_to_lake",
+    "status": "failed",
+    "run_time": "2026-07-02T06:18:00Z",
+    "duration_minutes": 74,
+    "error_message": "Rate limit exceeded on external API (429 Too Many Requests)",
+    "cluster_id": "cdc-cluster-01",
+    "cpu_usage": 34,
+    "memory_usage": 42,
+    "dependencies": [
+      "mysql_replica",
+      "bronze_layer"
+    ],
+    "last_success": "2026-06-29T06:18:00Z"
+  },
+  {
+    "pipeline_name": "cdc_postgres_sync",
+    "status": "success",
+    "run_time": "2026-07-07T14:23:00Z",
+    "duration_minutes": 81,
+    "error_message": null,
+    "cluster_id": "cdc-cluster-01",
+    "cpu_usage": 22,
+    "memory_usage": 58,
+    "dependencies": [
+      "postgres_replica",
+      "data_lake"
+    ],
+    "last_success": "2026-07-07T14:23:00Z"
+  },
+  {
+    "pipeline_name": "kafka_stream_processor",
+    "status": "success",
+    "run_time": "2026-07-01T23:30:00Z",
+    "duration_minutes": 76,
+    "error_message": null,
+    "cluster_id": "streaming-cluster-01",
+    "cpu_usage": 82,
+    "memory_usage": 38,
+    "dependencies": [
+      "kafka_broker",
+      "silver_layer"
+    ],
+    "last_success": "2026-07-01T23:30:00Z"
+  },
+  {
+    "pipeline_name": "realtime_alerts_etl",
+    "status": "success",
+    "run_time": "2026-07-02T18:55:00Z",
+    "duration_minutes": 35,
+    "error_message": null,
+    "cluster_id": "streaming-cluster-01",
+    "cpu_usage": 23,
+    "memory_usage": 26,
+    "dependencies": [
+      "event_hub",
+      "alerting_db"
+    ],
+    "last_success": "2026-07-02T18:55:00Z"
+  },
+  {
+    "pipeline_name": "clickstream_bronze_load",
+    "status": "failed",
+    "run_time": "2026-07-05T16:35:00Z",
+    "duration_minutes": 27,
+    "error_message": "Retry attempts exceeded (3/3). Cluster memory usage reached 91%",
+    "cluster_id": "streaming-cluster-02",
+    "cpu_usage": 87,
+    "memory_usage": 49,
+    "dependencies": [
+      "web_events",
+      "bronze_layer"
+    ],
+    "last_success": "2026-06-30T16:35:00Z"
+  },
+  {
+    "pipeline_name": "clickstream_silver_agg",
+    "status": "failed",
+    "run_time": "2026-07-01T14:55:00Z",
+    "duration_minutes": 65,
+    "error_message": "Upstream dependency did not complete before SLA deadline",
+    "cluster_id": "streaming-cluster-02",
+    "cpu_usage": 89,
+    "memory_usage": 90,
+    "dependencies": [
+      "bronze_layer",
+      "silver_layer"
+    ],
+    "last_success": "2026-06-26T14:55:00Z"
+  },
+  {
+    "pipeline_name": "master_data_customer",
+    "status": "success",
+    "run_time": "2026-07-05T10:47:00Z",
+    "duration_minutes": 52,
+    "error_message": null,
+    "cluster_id": "mdm-cluster-01",
+    "cpu_usage": 45,
+    "memory_usage": 51,
+    "dependencies": [
+      "crm_db",
+      "mdm_hub"
+    ],
+    "last_success": "2026-07-05T10:47:00Z"
+  },
+  {
+    "pipeline_name": "master_data_product",
+    "status": "success",
+    "run_time": "2026-07-01T07:41:00Z",
+    "duration_minutes": 70,
+    "error_message": null,
+    "cluster_id": "mdm-cluster-01",
+    "cpu_usage": 55,
+    "memory_usage": 27,
+    "dependencies": [
+      "pim_system",
+      "mdm_hub"
+    ],
+    "last_success": "2026-07-01T07:41:00Z"
+  },
+  {
+    "pipeline_name": "reference_data_sync",
+    "status": "success",
+    "run_time": "2026-07-01T13:24:00Z",
+    "duration_minutes": 24,
+    "error_message": null,
+    "cluster_id": "mdm-cluster-02",
+    "cpu_usage": 24,
+    "memory_usage": 86,
+    "dependencies": [
+      "reference_api",
+      "mdm_hub"
+    ],
+    "last_success": "2026-07-01T13:24:00Z"
+  },
+  {
+    "pipeline_name": "geo_enrichment_etl",
+    "status": "success",
+    "run_time": "2026-07-05T09:52:00Z",
+    "duration_minutes": 56,
+    "error_message": null,
+    "cluster_id": "geo-cluster-01",
+    "cpu_usage": 23,
+    "memory_usage": 49,
+    "dependencies": [
+      "ip_lookup_api",
+      "warehouse"
+    ],
+    "last_success": "2026-07-05T09:52:00Z"
   }
 ]

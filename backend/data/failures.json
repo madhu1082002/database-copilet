@@ -1,82 +1,306 @@
 [
   {
     "pipeline_name": "customer_ingestion",
-    "failure_time": "2026-07-08T01:30:00Z",
+    "failure_time": "2026-07-05T19:52:00Z",
     "root_cause": "Upstream API timeout",
-    "error_details": "API endpoint /v2/customers returned HTTP 504 after 30s timeout on all 3 retry attempts",
-    "cluster_logs": "WARN: Memory usage at 91% on ingestion-cluster-01. GC pressure detected.",
+    "error_details": "Connection timeout to source database after 30s",
+    "cluster_logs": "WARN: CPU 84%, memory 29% on ingestion-cluster-01.",
     "dependency_status": {
-      "customer_api": "degraded",
+      "customer_api": "unhealthy",
+      "bronze_layer": "unhealthy"
+    },
+    "suggested_actions": [
+      "Investigate upstream api timeout for customer ingestion",
+      "Review cluster sizing on ingestion-cluster-01",
+      "Retry job after upstream dependencies are healthy"
+    ]
+  },
+  {
+    "pipeline_name": "sales_etl",
+    "failure_time": "2026-07-03T16:58:00Z",
+    "root_cause": "Database connection timeout",
+    "error_details": "5 of 20 micro-batches skipped due to malformed records",
+    "cluster_logs": "WARN: CPU 26%, memory 45% on etl-cluster-02.",
+    "dependency_status": {
+      "sales_db": "degraded",
+      "warehouse": "schema_changed"
+    },
+    "suggested_actions": [
+      "Investigate database connection timeout for sales etl",
+      "Review cluster sizing on etl-cluster-02",
+      "Retry job after upstream dependencies are healthy"
+    ]
+  },
+  {
+    "pipeline_name": "hr_payroll_etl",
+    "failure_time": "2026-07-03T07:26:00Z",
+    "root_cause": "Upstream dependency SLA breach",
+    "error_details": "3 of 12 partitions failed due to schema mismatch in product_category field",
+    "cluster_logs": "WARN: CPU 63%, memory 28% on hr-cluster-01.",
+    "dependency_status": {
+      "hr_system": "unhealthy",
+      "payroll_db": "healthy"
+    },
+    "suggested_actions": [
+      "Investigate upstream dependency sla breach for hr payroll etl",
+      "Review cluster sizing on hr-cluster-01",
+      "Retry job after upstream dependencies are healthy"
+    ]
+  },
+  {
+    "pipeline_name": "orders_fulfillment_etl",
+    "failure_time": "2026-07-07T17:18:00Z",
+    "root_cause": "Schema mismatch",
+    "error_details": "Rate limit exceeded on external API (429 Too Many Requests)",
+    "cluster_logs": "WARN: CPU 52%, memory 28% on etl-cluster-02.",
+    "dependency_status": {
+      "orders_db": "unhealthy",
+      "warehouse": "healthy"
+    },
+    "suggested_actions": [
+      "Investigate schema mismatch for orders fulfillment etl",
+      "Review cluster sizing on etl-cluster-02",
+      "Retry job after upstream dependencies are healthy"
+    ]
+  },
+  {
+    "pipeline_name": "warehouse_inventory_sync",
+    "failure_time": "2026-07-04T03:43:00Z",
+    "root_cause": "API timeout with memory pressure",
+    "error_details": "Partial write failure: 85% of records loaded successfully",
+    "cluster_logs": "WARN: CPU 61%, memory 38% on inventory-cluster-02.",
+    "dependency_status": {
+      "wms_api": "degraded",
+      "inventory_db": "unhealthy"
+    },
+    "suggested_actions": [
+      "Investigate api timeout with memory pressure for warehouse inventory sync",
+      "Review cluster sizing on inventory-cluster-02",
+      "Retry job after upstream dependencies are healthy"
+    ]
+  },
+  {
+    "pipeline_name": "supplier_master_sync",
+    "failure_time": "2026-07-05T14:50:00Z",
+    "root_cause": "OAuth token expiration",
+    "error_details": "Connection timeout to source database after 30s",
+    "cluster_logs": "WARN: CPU 63%, memory 52% on sync-cluster-03.",
+    "dependency_status": {
+      "vendor_portal": "healthy",
+      "mdm_hub": "healthy"
+    },
+    "suggested_actions": [
+      "Investigate oauth token expiration for supplier master sync",
+      "Review cluster sizing on sync-cluster-03",
+      "Retry job after upstream dependencies are healthy"
+    ]
+  },
+  {
+    "pipeline_name": "fraud_detection_batch",
+    "failure_time": "2026-07-03T22:43:00Z",
+    "root_cause": "Cluster out-of-memory",
+    "error_details": "Partial write failure: 85% of records loaded successfully",
+    "cluster_logs": "CRITICAL: CPU 42%, memory 90% on ml-cluster-01.",
+    "dependency_status": {
+      "transactions_stream": "degraded",
+      "ml_models": "unhealthy"
+    },
+    "suggested_actions": [
+      "Investigate cluster out-of-memory for fraud detection batch",
+      "Review cluster sizing on ml-cluster-01",
+      "Retry job after upstream dependencies are healthy"
+    ]
+  },
+  {
+    "pipeline_name": "compliance_audit_export",
+    "failure_time": "2026-07-03T15:03:00Z",
+    "root_cause": "Disk space exhaustion",
+    "error_details": "Job killed by cluster manager due to OOM on executor",
+    "cluster_logs": "WARN: CPU 66%, memory 64% on compliance-cluster-01.",
+    "dependency_status": {
+      "audit_logs": "unhealthy",
+      "compliance_db": "degraded"
+    },
+    "suggested_actions": [
+      "Investigate disk space exhaustion for compliance audit export",
+      "Review cluster sizing on compliance-cluster-01",
+      "Retry job after upstream dependencies are healthy"
+    ]
+  },
+  {
+    "pipeline_name": "tax_reporting_dag",
+    "failure_time": "2026-07-07T00:51:00Z",
+    "root_cause": "Network partition",
+    "error_details": "Source table locked by concurrent ETL job",
+    "cluster_logs": "WARN: CPU 35%, memory 72% on finance-cluster-01.",
+    "dependency_status": {
+      "gl_reconciliation": "unhealthy",
+      "tax_engine": "degraded"
+    },
+    "suggested_actions": [
+      "Investigate network partition for tax reporting dag",
+      "Review cluster sizing on finance-cluster-01",
+      "Retry job after upstream dependencies are healthy"
+    ]
+  },
+  {
+    "pipeline_name": "web_analytics_ingestion",
+    "failure_time": "2026-07-01T08:39:00Z",
+    "root_cause": "Source table lock contention",
+    "error_details": "Checkpoint corruption detected in streaming job",
+    "cluster_logs": "WARN: CPU 52%, memory 73% on analytics_cluster.",
+    "dependency_status": {
+      "ga4_export": "unhealthy",
+      "bronze_layer": "schema_changed"
+    },
+    "suggested_actions": [
+      "Investigate source table lock contention for web analytics ingestion",
+      "Review cluster sizing on analytics_cluster",
+      "Retry job after upstream dependencies are healthy"
+    ]
+  },
+  {
+    "pipeline_name": "email_campaign_etl",
+    "failure_time": "2026-07-05T00:07:00Z",
+    "root_cause": "External API rate limiting",
+    "error_details": "2 of 8 output files failed validation checks",
+    "cluster_logs": "WARN: CPU 79%, memory 43% on marketing-cluster-01.",
+    "dependency_status": {
+      "mailchimp_api": "unhealthy",
+      "crm_db": "healthy"
+    },
+    "suggested_actions": [
+      "Investigate external api rate limiting for email campaign etl",
+      "Review cluster sizing on marketing-cluster-01",
+      "Retry job after upstream dependencies are healthy"
+    ]
+  },
+  {
+    "pipeline_name": "employee_onboarding_etl",
+    "failure_time": "2026-07-02T08:50:00Z",
+    "root_cause": "Streaming checkpoint corruption",
+    "error_details": "Job killed by cluster manager due to OOM on executor",
+    "cluster_logs": "WARN: CPU 82%, memory 72% on hr-cluster-01.",
+    "dependency_status": {
+      "ats_system": "healthy",
+      "hr_dwh": "schema_changed"
+    },
+    "suggested_actions": [
+      "Investigate streaming checkpoint corruption for employee onboarding etl",
+      "Review cluster sizing on hr-cluster-01",
+      "Retry job after upstream dependencies are healthy"
+    ]
+  },
+  {
+    "pipeline_name": "device_telemetry_agg",
+    "failure_time": "2026-07-05T18:23:00Z",
+    "root_cause": "Upstream API timeout",
+    "error_details": "Rate limit exceeded on external API (429 Too Many Requests)",
+    "cluster_logs": "WARN: CPU 15%, memory 27% on iot-cluster-01.",
+    "dependency_status": {
+      "timeseries_db": "unhealthy",
+      "warehouse": "healthy"
+    },
+    "suggested_actions": [
+      "Investigate upstream api timeout for device telemetry agg",
+      "Review cluster sizing on iot-cluster-01",
+      "Retry job after upstream dependencies are healthy"
+    ]
+  },
+  {
+    "pipeline_name": "vendor_invoice_etl",
+    "failure_time": "2026-07-05T14:10:00Z",
+    "root_cause": "Database connection timeout",
+    "error_details": "Connection timeout to source database after 30s",
+    "cluster_logs": "WARN: CPU 67%, memory 42% on procurement-cluster-01.",
+    "dependency_status": {
+      "invoice_api": "healthy",
+      "finance_dwh": "unhealthy"
+    },
+    "suggested_actions": [
+      "Investigate database connection timeout for vendor invoice etl",
+      "Review cluster sizing on procurement-cluster-01",
+      "Retry job after upstream dependencies are healthy"
+    ]
+  },
+  {
+    "pipeline_name": "contract_renewal_etl",
+    "failure_time": "2026-07-07T15:17:00Z",
+    "root_cause": "Upstream dependency SLA breach",
+    "error_details": "Partial write failure: 85% of records loaded successfully",
+    "cluster_logs": "WARN: CPU 27%, memory 25% on procurement-cluster-02.",
+    "dependency_status": {
+      "legal_docs": "degraded",
+      "crm_db": "unhealthy"
+    },
+    "suggested_actions": [
+      "Investigate upstream dependency sla breach for contract renewal etl",
+      "Review cluster sizing on procurement-cluster-02",
+      "Retry job after upstream dependencies are healthy"
+    ]
+  },
+  {
+    "pipeline_name": "data_quality_monitor",
+    "failure_time": "2026-07-07T01:45:00Z",
+    "root_cause": "Schema mismatch",
+    "error_details": "Authentication failed: OAuth token expired for source API",
+    "cluster_logs": "CRITICAL: CPU 39%, memory 86% on platform-cluster-01.",
+    "dependency_status": {
+      "warehouse": "degraded",
+      "dq_results": "schema_changed"
+    },
+    "suggested_actions": [
+      "Investigate schema mismatch for data quality monitor",
+      "Review cluster sizing on platform-cluster-01",
+      "Retry job after upstream dependencies are healthy"
+    ]
+  },
+  {
+    "pipeline_name": "cdc_mysql_to_lake",
+    "failure_time": "2026-07-02T06:18:00Z",
+    "root_cause": "API timeout with memory pressure",
+    "error_details": "Rate limit exceeded on external API (429 Too Many Requests)",
+    "cluster_logs": "WARN: CPU 34%, memory 42% on cdc-cluster-01.",
+    "dependency_status": {
+      "mysql_replica": "schema_changed",
       "bronze_layer": "healthy"
     },
     "suggested_actions": [
-      "Increase API timeout from 30s to 60s",
-      "Enable autoscaling on the ingestion cluster",
-      "Retry failed ingestion task after memory is freed"
+      "Investigate api timeout with memory pressure for cdc mysql to lake",
+      "Review cluster sizing on cdc-cluster-01",
+      "Retry job after upstream dependencies are healthy"
     ]
   },
   {
-    "pipeline_name": "customer_sync",
-    "failure_time": "2026-07-07T22:45:00Z",
-    "root_cause": "Database connection timeout",
-    "error_details": "Unable to establish connection to crm_db within 30 second timeout. Network latency spike detected.",
-    "cluster_logs": "ERROR: Connection pool exhausted. 50/50 connections in use.",
+    "pipeline_name": "clickstream_bronze_load",
+    "failure_time": "2026-07-05T16:35:00Z",
+    "root_cause": "OAuth token expiration",
+    "error_details": "Retry attempts exceeded (3/3). Cluster memory usage reached 91%",
+    "cluster_logs": "WARN: CPU 87%, memory 49% on streaming-cluster-02.",
     "dependency_status": {
-      "crm_db": "unhealthy",
-      "data_lake": "healthy"
+      "web_events": "healthy",
+      "bronze_layer": "healthy"
     },
     "suggested_actions": [
-      "Increase connection pool size from 50 to 100",
-      "Check CRM database health and network connectivity",
-      "Implement circuit breaker for CRM connections"
+      "Investigate oauth token expiration for clickstream bronze load",
+      "Review cluster sizing on streaming-cluster-02",
+      "Retry job after upstream dependencies are healthy"
     ]
   },
   {
-    "pipeline_name": "finance_dag",
-    "failure_time": "2026-07-07T04:00:00Z",
-    "root_cause": "Upstream dependency SLA breach",
-    "error_details": "finance_raw_load did not complete before the 04:00 SLA deadline. Job was still running at 03:58.",
-    "cluster_logs": "INFO: finance_dag waited 45 minutes for upstream. Timeout triggered at SLA boundary.",
+    "pipeline_name": "clickstream_silver_agg",
+    "failure_time": "2026-07-01T14:55:00Z",
+    "root_cause": "Cluster out-of-memory",
+    "error_details": "Upstream dependency did not complete before SLA deadline",
+    "cluster_logs": "CRITICAL: CPU 89%, memory 90% on streaming-cluster-02.",
     "dependency_status": {
-      "finance_raw_load": "failed",
-      "gl_reconciliation": "skipped"
+      "bronze_layer": "degraded",
+      "silver_layer": "healthy"
     },
     "suggested_actions": [
-      "Investigate finance_raw_load performance degradation",
-      "Adjust SLA window or add buffer time",
-      "Enable parallel processing for raw load stage"
-    ]
-  },
-  {
-    "pipeline_name": "inventory_pipeline",
-    "failure_time": "2026-07-08T00:15:00Z",
-    "root_cause": "Schema mismatch",
-    "error_details": "product_category field type changed from STRING to INT in source. 3 of 12 partitions rejected.",
-    "cluster_logs": "ERROR: Schema validation failed for partitions 4, 7, 11. Expected STRING, got INT.",
-    "dependency_status": {
-      "warehouse_db": "healthy",
-      "inventory_api": "schema_changed"
-    },
-    "suggested_actions": [
-      "Update schema mapping for product_category field",
-      "Re-run failed partitions after schema fix",
-      "Add schema change detection alert"
-    ]
-  },
-  {
-    "pipeline_name": "customer_data_pipeline",
-    "failure_time": "2026-07-08T02:15:00Z",
-    "root_cause": "API timeout with memory pressure",
-    "error_details": "Upstream API returned timeout errors. Cluster memory at 91% during peak ingestion.",
-    "cluster_logs": "CRITICAL: OOM warning on ingestion-cluster-01. Memory 91%, CPU 91%.",
-    "dependency_status": {
-      "api_gateway": "degraded",
-      "raw_storage": "healthy"
-    },
-    "suggested_actions": [
-      "Scale up ingestion cluster memory",
-      "Increase API timeout configuration",
-      "Schedule ingestion during off-peak hours"
+      "Investigate cluster out-of-memory for clickstream silver agg",
+      "Review cluster sizing on streaming-cluster-02",
+      "Retry job after upstream dependencies are healthy"
     ]
   }
 ]

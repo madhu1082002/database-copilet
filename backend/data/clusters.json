@@ -2,85 +2,507 @@
   {
     "cluster_id": "analytics_cluster",
     "cluster_name": "analytics_cluster",
-    "instance_type": "DS5_v2",
-    "recommended_type": "DS3_v2",
-    "avg_cpu_usage": 18,
-    "avg_memory_usage": 22,
-    "peak_cpu_usage": 35,
-    "peak_memory_usage": 40,
-    "monthly_cost_inr": 12000,
-    "estimated_savings_inr": 5000,
-    "jobs_running": ["analytics_daily", "reporting_weekly"],
-    "recommendation": "Cluster is significantly underutilized. Downsize from DS5_v2 to DS3_v2."
-  },
-  {
-    "cluster_id": "ingestion-cluster-01",
-    "cluster_name": "ingestion_cluster",
-    "instance_type": "DS4_v2",
-    "recommended_type": "DS4_v2",
-    "avg_cpu_usage": 85,
-    "avg_memory_usage": 88,
-    "peak_cpu_usage": 95,
-    "peak_memory_usage": 91,
-    "monthly_cost_inr": 8500,
-    "estimated_savings_inr": 0,
-    "jobs_running": ["customer_ingestion", "customer_data_pipeline"],
-    "recommendation": "Cluster is over-utilized. Consider scaling up to DS5_v2 or enabling autoscaling."
-  },
-  {
-    "cluster_id": "etl-cluster-02",
-    "cluster_name": "etl_cluster",
     "instance_type": "DS3_v2",
     "recommended_type": "DS3_v2",
-    "avg_cpu_usage": 42,
-    "avg_memory_usage": 38,
-    "peak_cpu_usage": 68,
-    "peak_memory_usage": 55,
+    "avg_cpu_usage": 53,
+    "avg_memory_usage": 44,
+    "peak_cpu_usage": 69,
+    "peak_memory_usage": 58,
     "monthly_cost_inr": 6000,
     "estimated_savings_inr": 0,
-    "jobs_running": ["sales_etl"],
+    "jobs_running": [
+      "analytics_daily",
+      "web_analytics_ingestion",
+      "session_replay_etl"
+    ],
     "recommendation": "Cluster sizing is appropriate for current workload."
   },
   {
-    "cluster_id": "marketing-cluster-01",
-    "cluster_name": "marketing_cluster",
+    "cluster_id": "catalog-cluster-01",
+    "cluster_name": "catalog_cluster_01",
     "instance_type": "DS4_v2",
-    "recommended_type": "DS3_v2",
-    "avg_cpu_usage": 25,
-    "avg_memory_usage": 30,
-    "peak_cpu_usage": 45,
-    "peak_memory_usage": 42,
+    "recommended_type": "DS5_v2",
+    "avg_cpu_usage": 88,
+    "avg_memory_usage": 42,
+    "peak_cpu_usage": 95,
+    "peak_memory_usage": 49,
     "monthly_cost_inr": 8500,
-    "estimated_savings_inr": 3500,
-    "jobs_running": ["marketing_attribution"],
-    "recommendation": "Downsize from DS4_v2 to DS3_v2. Marketing jobs are lightweight."
+    "estimated_savings_inr": 0,
+    "jobs_running": [
+      "product_catalog_sync"
+    ],
+    "recommendation": "Cluster is over-utilized at 88% CPU. Scale up or enable autoscaling."
+  },
+  {
+    "cluster_id": "cdc-cluster-01",
+    "cluster_name": "cdc_cluster_01",
+    "instance_type": "DS5_v2",
+    "recommended_type": "DS3_v2",
+    "avg_cpu_usage": 28,
+    "avg_memory_usage": 50,
+    "peak_cpu_usage": 34,
+    "peak_memory_usage": 59,
+    "monthly_cost_inr": 12000,
+    "estimated_savings_inr": 6000,
+    "jobs_running": [
+      "cdc_mysql_to_lake",
+      "cdc_postgres_sync"
+    ],
+    "recommendation": "Cluster is underutilized at 28% CPU. Downsize from DS5_v2 to DS3_v2."
+  },
+  {
+    "cluster_id": "compliance-cluster-01",
+    "cluster_name": "compliance_cluster_01",
+    "instance_type": "DS4_v2",
+    "recommended_type": "DS4_v2",
+    "avg_cpu_usage": 72,
+    "avg_memory_usage": 46,
+    "peak_cpu_usage": 88,
+    "peak_memory_usage": 51,
+    "monthly_cost_inr": 8500,
+    "estimated_savings_inr": 0,
+    "jobs_running": [
+      "compliance_audit_export",
+      "gdpr_data_retention"
+    ],
+    "recommendation": "Cluster sizing is appropriate for current workload."
+  },
+  {
+    "cluster_id": "etl-cluster-02",
+    "cluster_name": "etl_cluster_02",
+    "instance_type": "DS3_v2",
+    "recommended_type": "DS3_v2",
+    "avg_cpu_usage": 39,
+    "avg_memory_usage": 36,
+    "peak_cpu_usage": 50,
+    "peak_memory_usage": 51,
+    "monthly_cost_inr": 6000,
+    "estimated_savings_inr": 0,
+    "jobs_running": [
+      "sales_etl",
+      "orders_fulfillment_etl"
+    ],
+    "recommendation": "Cluster sizing is appropriate for current workload."
   },
   {
     "cluster_id": "finance-cluster-01",
-    "cluster_name": "finance_cluster",
+    "cluster_name": "finance_cluster_01",
+    "instance_type": "DS4_v2",
+    "recommended_type": "DS3_v2",
+    "avg_cpu_usage": 52,
+    "avg_memory_usage": 59,
+    "peak_cpu_usage": 60,
+    "peak_memory_usage": 69,
+    "monthly_cost_inr": 8500,
+    "estimated_savings_inr": 2500,
+    "jobs_running": [
+      "finance_dag",
+      "tax_reporting_dag"
+    ],
+    "recommendation": "Moderate downsizing possible. Average CPU 52%. Recommend DS3_v2."
+  },
+  {
+    "cluster_id": "finance-cluster-02",
+    "cluster_name": "finance_cluster_02",
+    "instance_type": "DS3_v2",
+    "recommended_type": "DS3_v2",
+    "avg_cpu_usage": 56,
+    "avg_memory_usage": 68,
+    "peak_cpu_usage": 65,
+    "peak_memory_usage": 76,
+    "monthly_cost_inr": 6000,
+    "estimated_savings_inr": 0,
+    "jobs_running": [
+      "accounts_receivable_etl",
+      "budget_forecast_pipeline"
+    ],
+    "recommendation": "Cluster sizing is appropriate for current workload."
+  },
+  {
+    "cluster_id": "geo-cluster-01",
+    "cluster_name": "geo_cluster_01",
     "instance_type": "DS5_v2",
-    "recommended_type": "DS4_v2",
-    "avg_cpu_usage": 55,
-    "avg_memory_usage": 60,
-    "peak_cpu_usage": 78,
-    "peak_memory_usage": 72,
+    "recommended_type": "DS3_v2",
+    "avg_cpu_usage": 23,
+    "avg_memory_usage": 49,
+    "peak_cpu_usage": 33,
+    "peak_memory_usage": 60,
     "monthly_cost_inr": 12000,
-    "estimated_savings_inr": 4000,
-    "jobs_running": ["finance_dag", "gl_reconciliation"],
-    "recommendation": "Moderate downsizing possible. DS4_v2 should handle peak loads with 20% headroom."
+    "estimated_savings_inr": 6000,
+    "jobs_running": [
+      "geo_enrichment_etl"
+    ],
+    "recommendation": "Cluster is underutilized at 23% CPU. Downsize from DS5_v2 to DS3_v2."
   },
   {
     "cluster_id": "hr-cluster-01",
-    "cluster_name": "hr_cluster",
+    "cluster_name": "hr_cluster_01",
+    "instance_type": "DS4_v2",
+    "recommended_type": "DS4_v2",
+    "avg_cpu_usage": 72,
+    "avg_memory_usage": 50,
+    "peak_cpu_usage": 77,
+    "peak_memory_usage": 57,
+    "monthly_cost_inr": 8500,
+    "estimated_savings_inr": 0,
+    "jobs_running": [
+      "hr_payroll_etl",
+      "employee_onboarding_etl"
+    ],
+    "recommendation": "Cluster sizing is appropriate for current workload."
+  },
+  {
+    "cluster_id": "hr-cluster-02",
+    "cluster_name": "hr_cluster_02",
     "instance_type": "DS3_v2",
     "recommended_type": "DS3_v2",
-    "avg_cpu_usage": 72,
-    "avg_memory_usage": 68,
-    "peak_cpu_usage": 85,
-    "peak_memory_usage": 80,
+    "avg_cpu_usage": 62,
+    "avg_memory_usage": 76,
+    "peak_cpu_usage": 80,
+    "peak_memory_usage": 91,
     "monthly_cost_inr": 6000,
     "estimated_savings_inr": 0,
-    "jobs_running": ["hr_payroll_etl"],
-    "recommendation": "Cluster is well-sized for payroll processing peaks."
+    "jobs_running": [
+      "time_attendance_sync",
+      "benefits_enrollment_etl"
+    ],
+    "recommendation": "Cluster sizing is appropriate for current workload."
+  },
+  {
+    "cluster_id": "ingestion-cluster-01",
+    "cluster_name": "ingestion_cluster_01",
+    "instance_type": "DS3_v2",
+    "recommended_type": "DS3_v2",
+    "avg_cpu_usage": 67,
+    "avg_memory_usage": 39,
+    "peak_cpu_usage": 80,
+    "peak_memory_usage": 46,
+    "monthly_cost_inr": 6000,
+    "estimated_savings_inr": 0,
+    "jobs_running": [
+      "customer_data_pipeline",
+      "customer_ingestion"
+    ],
+    "recommendation": "Cluster sizing is appropriate for current workload."
+  },
+  {
+    "cluster_id": "inventory-cluster-02",
+    "cluster_name": "inventory_cluster_02",
+    "instance_type": "DS4_v2",
+    "recommended_type": "DS3_v2",
+    "avg_cpu_usage": 48,
+    "avg_memory_usage": 55,
+    "peak_cpu_usage": 65,
+    "peak_memory_usage": 60,
+    "monthly_cost_inr": 8500,
+    "estimated_savings_inr": 2500,
+    "jobs_running": [
+      "inventory_pipeline",
+      "warehouse_inventory_sync"
+    ],
+    "recommendation": "Moderate downsizing possible. Average CPU 48%. Recommend DS3_v2."
+  },
+  {
+    "cluster_id": "iot-cluster-01",
+    "cluster_name": "iot_cluster_01",
+    "instance_type": "DS4_v2",
+    "recommended_type": "DS3_v2",
+    "avg_cpu_usage": 36,
+    "avg_memory_usage": 24,
+    "peak_cpu_usage": 48,
+    "peak_memory_usage": 32,
+    "monthly_cost_inr": 8500,
+    "estimated_savings_inr": 2500,
+    "jobs_running": [
+      "iot_sensor_ingestion",
+      "device_telemetry_agg"
+    ],
+    "recommendation": "Moderate downsizing possible. Average CPU 36%. Recommend DS3_v2."
+  },
+  {
+    "cluster_id": "iot-cluster-02",
+    "cluster_name": "iot_cluster_02",
+    "instance_type": "DS5_v2",
+    "recommended_type": "DS3_v2",
+    "avg_cpu_usage": 28,
+    "avg_memory_usage": 87,
+    "peak_cpu_usage": 44,
+    "peak_memory_usage": 95,
+    "monthly_cost_inr": 12000,
+    "estimated_savings_inr": 6000,
+    "jobs_running": [
+      "manufacturing_oee_etl",
+      "quality_inspection_dag"
+    ],
+    "recommendation": "Cluster is underutilized at 28% CPU. Downsize from DS5_v2 to DS3_v2."
+  },
+  {
+    "cluster_id": "logistics-cluster-01",
+    "cluster_name": "logistics_cluster_01",
+    "instance_type": "DS5_v2",
+    "recommended_type": "DS3_v2",
+    "avg_cpu_usage": 24,
+    "avg_memory_usage": 39,
+    "peak_cpu_usage": 36,
+    "peak_memory_usage": 47,
+    "monthly_cost_inr": 12000,
+    "estimated_savings_inr": 6000,
+    "jobs_running": [
+      "logistics_tracking_etl"
+    ],
+    "recommendation": "Cluster is underutilized at 24% CPU. Downsize from DS5_v2 to DS3_v2."
+  },
+  {
+    "cluster_id": "marketing-cluster-01",
+    "cluster_name": "marketing_cluster_01",
+    "instance_type": "DS4_v2",
+    "recommended_type": "DS5_v2",
+    "avg_cpu_usage": 86,
+    "avg_memory_usage": 47,
+    "peak_cpu_usage": 91,
+    "peak_memory_usage": 62,
+    "monthly_cost_inr": 8500,
+    "estimated_savings_inr": 0,
+    "jobs_running": [
+      "marketing_attribution",
+      "email_campaign_etl"
+    ],
+    "recommendation": "Cluster is over-utilized at 86% CPU. Scale up or enable autoscaling."
+  },
+  {
+    "cluster_id": "marketing-cluster-02",
+    "cluster_name": "marketing_cluster_02",
+    "instance_type": "DS4_v2",
+    "recommended_type": "DS3_v2",
+    "avg_cpu_usage": 34,
+    "avg_memory_usage": 54,
+    "peak_cpu_usage": 45,
+    "peak_memory_usage": 65,
+    "monthly_cost_inr": 8500,
+    "estimated_savings_inr": 2500,
+    "jobs_running": [
+      "social_media_ingestion",
+      "seo_rankings_sync"
+    ],
+    "recommendation": "Moderate downsizing possible. Average CPU 34%. Recommend DS3_v2."
+  },
+  {
+    "cluster_id": "mdm-cluster-01",
+    "cluster_name": "mdm_cluster_01",
+    "instance_type": "DS4_v2",
+    "recommended_type": "DS3_v2",
+    "avg_cpu_usage": 50,
+    "avg_memory_usage": 39,
+    "peak_cpu_usage": 63,
+    "peak_memory_usage": 45,
+    "monthly_cost_inr": 8500,
+    "estimated_savings_inr": 2500,
+    "jobs_running": [
+      "master_data_customer",
+      "master_data_product"
+    ],
+    "recommendation": "Moderate downsizing possible. Average CPU 50%. Recommend DS3_v2."
+  },
+  {
+    "cluster_id": "mdm-cluster-02",
+    "cluster_name": "mdm_cluster_02",
+    "instance_type": "DS5_v2",
+    "recommended_type": "DS3_v2",
+    "avg_cpu_usage": 24,
+    "avg_memory_usage": 86,
+    "peak_cpu_usage": 40,
+    "peak_memory_usage": 95,
+    "monthly_cost_inr": 12000,
+    "estimated_savings_inr": 6000,
+    "jobs_running": [
+      "reference_data_sync"
+    ],
+    "recommendation": "Cluster is underutilized at 24% CPU. Downsize from DS5_v2 to DS3_v2."
+  },
+  {
+    "cluster_id": "ml-cluster-01",
+    "cluster_name": "ml_cluster_01",
+    "instance_type": "DS4_v2",
+    "recommended_type": "DS3_v2",
+    "avg_cpu_usage": 43,
+    "avg_memory_usage": 56,
+    "peak_cpu_usage": 60,
+    "peak_memory_usage": 71,
+    "monthly_cost_inr": 8500,
+    "estimated_savings_inr": 2500,
+    "jobs_running": [
+      "pricing_engine_refresh",
+      "fraud_detection_batch"
+    ],
+    "recommendation": "Moderate downsizing possible. Average CPU 43%. Recommend DS3_v2."
+  },
+  {
+    "cluster_id": "ml-cluster-02",
+    "cluster_name": "ml_cluster_02",
+    "instance_type": "DS4_v2",
+    "recommended_type": "DS4_v2",
+    "avg_cpu_usage": 78,
+    "avg_memory_usage": 44,
+    "peak_cpu_usage": 83,
+    "peak_memory_usage": 50,
+    "monthly_cost_inr": 8500,
+    "estimated_savings_inr": 0,
+    "jobs_running": [
+      "churn_prediction_etl",
+      "recommendation_features"
+    ],
+    "recommendation": "Cluster sizing is appropriate for current workload."
+  },
+  {
+    "cluster_id": "platform-cluster-01",
+    "cluster_name": "platform_cluster_01",
+    "instance_type": "DS4_v2",
+    "recommended_type": "DS3_v2",
+    "avg_cpu_usage": 42,
+    "avg_memory_usage": 56,
+    "peak_cpu_usage": 52,
+    "peak_memory_usage": 70,
+    "monthly_cost_inr": 8500,
+    "estimated_savings_inr": 2500,
+    "jobs_running": [
+      "data_quality_monitor",
+      "schema_drift_detector"
+    ],
+    "recommendation": "Moderate downsizing possible. Average CPU 42%. Recommend DS3_v2."
+  },
+  {
+    "cluster_id": "platform-cluster-02",
+    "cluster_name": "platform_cluster_02",
+    "instance_type": "DS4_v2",
+    "recommended_type": "DS4_v2",
+    "avg_cpu_usage": 76,
+    "avg_memory_usage": 50,
+    "peak_cpu_usage": 82,
+    "peak_memory_usage": 56,
+    "monthly_cost_inr": 8500,
+    "estimated_savings_inr": 0,
+    "jobs_running": [
+      "lineage_metadata_sync",
+      "cost_allocation_etl"
+    ],
+    "recommendation": "Cluster sizing is appropriate for current workload."
+  },
+  {
+    "cluster_id": "platform-cluster-03",
+    "cluster_name": "platform_cluster_03",
+    "instance_type": "DS4_v2",
+    "recommended_type": "DS3_v2",
+    "avg_cpu_usage": 44,
+    "avg_memory_usage": 69,
+    "peak_cpu_usage": 60,
+    "peak_memory_usage": 79,
+    "monthly_cost_inr": 8500,
+    "estimated_savings_inr": 2500,
+    "jobs_running": [
+      "backup_verification_dag",
+      "disaster_recovery_test"
+    ],
+    "recommendation": "Moderate downsizing possible. Average CPU 44%. Recommend DS3_v2."
+  },
+  {
+    "cluster_id": "procurement-cluster-01",
+    "cluster_name": "procurement_cluster_01",
+    "instance_type": "DS3_v2",
+    "recommended_type": "DS3_v2",
+    "avg_cpu_usage": 67,
+    "avg_memory_usage": 60,
+    "peak_cpu_usage": 75,
+    "peak_memory_usage": 71,
+    "monthly_cost_inr": 6000,
+    "estimated_savings_inr": 0,
+    "jobs_running": [
+      "vendor_invoice_etl",
+      "purchase_order_sync"
+    ],
+    "recommendation": "Cluster sizing is appropriate for current workload."
+  },
+  {
+    "cluster_id": "procurement-cluster-02",
+    "cluster_name": "procurement_cluster_02",
+    "instance_type": "DS5_v2",
+    "recommended_type": "DS3_v2",
+    "avg_cpu_usage": 27,
+    "avg_memory_usage": 25,
+    "peak_cpu_usage": 40,
+    "peak_memory_usage": 30,
+    "monthly_cost_inr": 12000,
+    "estimated_savings_inr": 6000,
+    "jobs_running": [
+      "contract_renewal_etl"
+    ],
+    "recommendation": "Cluster is underutilized at 27% CPU. Downsize from DS5_v2 to DS3_v2."
+  },
+  {
+    "cluster_id": "streaming-cluster-01",
+    "cluster_name": "streaming_cluster_01",
+    "instance_type": "DS3_v2",
+    "recommended_type": "DS3_v2",
+    "avg_cpu_usage": 52,
+    "avg_memory_usage": 32,
+    "peak_cpu_usage": 70,
+    "peak_memory_usage": 37,
+    "monthly_cost_inr": 6000,
+    "estimated_savings_inr": 0,
+    "jobs_running": [
+      "kafka_stream_processor",
+      "realtime_alerts_etl"
+    ],
+    "recommendation": "Cluster sizing is appropriate for current workload."
+  },
+  {
+    "cluster_id": "streaming-cluster-02",
+    "cluster_name": "streaming_cluster_02",
+    "instance_type": "DS4_v2",
+    "recommended_type": "DS5_v2",
+    "avg_cpu_usage": 88,
+    "avg_memory_usage": 70,
+    "peak_cpu_usage": 95,
+    "peak_memory_usage": 81,
+    "monthly_cost_inr": 8500,
+    "estimated_savings_inr": 0,
+    "jobs_running": [
+      "clickstream_bronze_load",
+      "clickstream_silver_agg"
+    ],
+    "recommendation": "Cluster is over-utilized at 88% CPU. Scale up or enable autoscaling."
+  },
+  {
+    "cluster_id": "support-cluster-01",
+    "cluster_name": "support_cluster_01",
+    "instance_type": "DS4_v2",
+    "recommended_type": "DS3_v2",
+    "avg_cpu_usage": 54,
+    "avg_memory_usage": 30,
+    "peak_cpu_usage": 61,
+    "peak_memory_usage": 45,
+    "monthly_cost_inr": 8500,
+    "estimated_savings_inr": 2500,
+    "jobs_running": [
+      "support_ticket_etl",
+      "nps_survey_pipeline"
+    ],
+    "recommendation": "Moderate downsizing possible. Average CPU 54%. Recommend DS3_v2."
+  },
+  {
+    "cluster_id": "sync-cluster-03",
+    "cluster_name": "sync_cluster_03",
+    "instance_type": "DS3_v2",
+    "recommended_type": "DS3_v2",
+    "avg_cpu_usage": 40,
+    "avg_memory_usage": 70,
+    "peak_cpu_usage": 55,
+    "peak_memory_usage": 85,
+    "monthly_cost_inr": 6000,
+    "estimated_savings_inr": 0,
+    "jobs_running": [
+      "customer_sync",
+      "supplier_master_sync"
+    ],
+    "recommendation": "Cluster sizing is appropriate for current workload."
   }
 ]

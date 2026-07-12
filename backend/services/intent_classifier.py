@@ -14,8 +14,8 @@ CATEGORIES = {
     "optimization": [
         r"\b(cost|reduce|optimize|optimization|savings|underutiliz)\b",
         r"\b(cluster|resource|cpu|memory|oversized|high resource)\b",
-        r"\bperformance\b",
-        r"\bcompute\b",
+        r"\b(performance|compute|save money|jobs consume)\b",
+        r"\bdownsize\b",
     ],
 }
 
