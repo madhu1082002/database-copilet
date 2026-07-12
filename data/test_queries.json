@@ -1,0 +1,447 @@
+{
+  "version": 1,
+  "description": "Validation queries for DataOps Copilot AI-assisted QA (pSIDDHI S3-D-08)",
+  "total_queries": 55,
+  "queries": [
+    {
+      "id": "syn-001",
+      "query": "Is customer data pipeline still running?",
+      "expected_intent": "pipeline_status",
+      "category": "standard",
+      "pipeline": "customer_data_pipeline",
+      "source": "template"
+    },
+    {
+      "id": "syn-002",
+      "query": "Did finance_dag run today?",
+      "expected_intent": "pipeline_status",
+      "category": "standard",
+      "pipeline": "finance_dag",
+      "source": "template"
+    },
+    {
+      "id": "syn-003",
+      "query": "Did inventory_pipeline run today?",
+      "expected_intent": "pipeline_status",
+      "category": "standard",
+      "pipeline": "inventory_pipeline",
+      "source": "template"
+    },
+    {
+      "id": "syn-004",
+      "query": "Is analytics daily still running?",
+      "expected_intent": "pipeline_status",
+      "category": "standard",
+      "pipeline": "analytics_daily",
+      "source": "template"
+    },
+    {
+      "id": "syn-005",
+      "query": "Show me the latest run for marketing_attribution",
+      "expected_intent": "pipeline_status",
+      "category": "standard",
+      "pipeline": "marketing_attribution",
+      "source": "template"
+    },
+    {
+      "id": "syn-006",
+      "query": "What is the status of product catalog sync?",
+      "expected_intent": "pipeline_status",
+      "category": "standard",
+      "pipeline": "product_catalog_sync",
+      "source": "template"
+    },
+    {
+      "id": "syn-007",
+      "query": "What is the status of logistics tracking etl?",
+      "expected_intent": "pipeline_status",
+      "category": "standard",
+      "pipeline": "logistics_tracking_etl",
+      "source": "template"
+    },
+    {
+      "id": "syn-008",
+      "query": "What is the status of pricing engine refresh?",
+      "expected_intent": "pipeline_status",
+      "category": "standard",
+      "pipeline": "pricing_engine_refresh",
+      "source": "template"
+    },
+    {
+      "id": "syn-009",
+      "query": "Is churn prediction etl still running?",
+      "expected_intent": "pipeline_status",
+      "category": "standard",
+      "pipeline": "churn_prediction_etl",
+      "source": "template"
+    },
+    {
+      "id": "syn-010",
+      "query": "Did recommendation_features run today?",
+      "expected_intent": "pipeline_status",
+      "category": "standard",
+      "pipeline": "recommendation_features",
+      "source": "template"
+    },
+    {
+      "id": "syn-011",
+      "query": "Is accounts receivable etl still running?",
+      "expected_intent": "pipeline_status",
+      "category": "standard",
+      "pipeline": "accounts_receivable_etl",
+      "source": "template"
+    },
+    {
+      "id": "syn-012",
+      "query": "Is session replay etl still running?",
+      "expected_intent": "pipeline_status",
+      "category": "standard",
+      "pipeline": "session_replay_etl",
+      "source": "template"
+    },
+    {
+      "id": "syn-013",
+      "query": "Is customer sync still running?",
+      "expected_intent": "pipeline_status",
+      "category": "standard",
+      "pipeline": "customer_sync",
+      "source": "template"
+    },
+    {
+      "id": "syn-014",
+      "query": "Is gdpr data retention still running?",
+      "expected_intent": "pipeline_status",
+      "category": "standard",
+      "pipeline": "gdpr_data_retention",
+      "source": "template"
+    },
+    {
+      "id": "syn-015",
+      "query": "Is budget forecast pipeline still running?",
+      "expected_intent": "pipeline_status",
+      "category": "standard",
+      "pipeline": "budget_forecast_pipeline",
+      "source": "template"
+    },
+    {
+      "id": "syn-016",
+      "query": "Is nps survey pipeline still running?",
+      "expected_intent": "pipeline_status",
+      "category": "standard",
+      "pipeline": "nps_survey_pipeline",
+      "source": "template"
+    },
+    {
+      "id": "syn-017",
+      "query": "Which pipelines failed in the last 24 hours?",
+      "expected_intent": "pipeline_status",
+      "category": "aggregate",
+      "pipeline": null,
+      "source": "template"
+    },
+    {
+      "id": "syn-018",
+      "query": "Show me all failed pipelines",
+      "expected_intent": "pipeline_status",
+      "category": "aggregate",
+      "pipeline": null,
+      "source": "template"
+    },
+    {
+      "id": "syn-019",
+      "query": "How many pipelines succeeded today?",
+      "expected_intent": "pipeline_status",
+      "category": "aggregate",
+      "pipeline": null,
+      "source": "template"
+    },
+    {
+      "id": "syn-020",
+      "query": "Diagnose the failure on customer_ingestion",
+      "expected_intent": "failure_diagnosis",
+      "category": "standard",
+      "pipeline": "customer_ingestion",
+      "source": "template"
+    },
+    {
+      "id": "syn-021",
+      "query": "Why did sales_etl fail?",
+      "expected_intent": "failure_diagnosis",
+      "category": "standard",
+      "pipeline": "sales_etl",
+      "source": "template"
+    },
+    {
+      "id": "syn-022",
+      "query": "Diagnose the failure on hr_payroll_etl",
+      "expected_intent": "failure_diagnosis",
+      "category": "standard",
+      "pipeline": "hr_payroll_etl",
+      "source": "template"
+    },
+    {
+      "id": "syn-023",
+      "query": "What went wrong with orders fulfillment etl?",
+      "expected_intent": "failure_diagnosis",
+      "category": "standard",
+      "pipeline": "orders_fulfillment_etl",
+      "source": "template"
+    },
+    {
+      "id": "syn-024",
+      "query": "Why did warehouse_inventory_sync fail?",
+      "expected_intent": "failure_diagnosis",
+      "category": "standard",
+      "pipeline": "warehouse_inventory_sync",
+      "source": "template"
+    },
+    {
+      "id": "syn-025",
+      "query": "Why did supplier_master_sync fail?",
+      "expected_intent": "failure_diagnosis",
+      "category": "standard",
+      "pipeline": "supplier_master_sync",
+      "source": "template"
+    },
+    {
+      "id": "syn-026",
+      "query": "Why did fraud_detection_batch fail?",
+      "expected_intent": "failure_diagnosis",
+      "category": "standard",
+      "pipeline": "fraud_detection_batch",
+      "source": "template"
+    },
+    {
+      "id": "syn-027",
+      "query": "What caused the compliance audit export failure?",
+      "expected_intent": "failure_diagnosis",
+      "category": "standard",
+      "pipeline": "compliance_audit_export",
+      "source": "template"
+    },
+    {
+      "id": "syn-028",
+      "query": "What caused the tax reporting dag failure?",
+      "expected_intent": "failure_diagnosis",
+      "category": "standard",
+      "pipeline": "tax_reporting_dag",
+      "source": "template"
+    },
+    {
+      "id": "syn-029",
+      "query": "Diagnose the failure on web_analytics_ingestion",
+      "expected_intent": "failure_diagnosis",
+      "category": "standard",
+      "pipeline": "web_analytics_ingestion",
+      "source": "template"
+    },
+    {
+      "id": "syn-030",
+      "query": "Diagnose the failure on email_campaign_etl",
+      "expected_intent": "failure_diagnosis",
+      "category": "standard",
+      "pipeline": "email_campaign_etl",
+      "source": "template"
+    },
+    {
+      "id": "syn-031",
+      "query": "Why did employee_onboarding_etl fail?",
+      "expected_intent": "failure_diagnosis",
+      "category": "standard",
+      "pipeline": "employee_onboarding_etl",
+      "source": "template"
+    },
+    {
+      "id": "syn-032",
+      "query": "Diagnose the failure on device_telemetry_agg",
+      "expected_intent": "failure_diagnosis",
+      "category": "standard",
+      "pipeline": "device_telemetry_agg",
+      "source": "template"
+    },
+    {
+      "id": "syn-033",
+      "query": "What caused the vendor invoice etl failure?",
+      "expected_intent": "failure_diagnosis",
+      "category": "standard",
+      "pipeline": "vendor_invoice_etl",
+      "source": "template"
+    },
+    {
+      "id": "syn-034",
+      "query": "Root cause for contract renewal etl failure?",
+      "expected_intent": "failure_diagnosis",
+      "category": "standard",
+      "pipeline": "contract_renewal_etl",
+      "source": "template"
+    },
+    {
+      "id": "syn-035",
+      "query": "Root cause for data quality monitor failure?",
+      "expected_intent": "failure_diagnosis",
+      "category": "standard",
+      "pipeline": "data_quality_monitor",
+      "source": "template"
+    },
+    {
+      "id": "syn-036",
+      "query": "Root cause for cdc mysql to lake failure?",
+      "expected_intent": "failure_diagnosis",
+      "category": "standard",
+      "pipeline": "cdc_mysql_to_lake",
+      "source": "template"
+    },
+    {
+      "id": "syn-037",
+      "query": "Diagnose the failure on clickstream_bronze_load",
+      "expected_intent": "failure_diagnosis",
+      "category": "standard",
+      "pipeline": "clickstream_bronze_load",
+      "source": "template"
+    },
+    {
+      "id": "syn-038",
+      "query": "What went wrong with clickstream silver agg?",
+      "expected_intent": "failure_diagnosis",
+      "category": "standard",
+      "pipeline": "clickstream_silver_agg",
+      "source": "template"
+    },
+    {
+      "id": "syn-039",
+      "query": "Can we reduce compute costs?",
+      "expected_intent": "optimization",
+      "category": "standard",
+      "pipeline": null,
+      "source": "template"
+    },
+    {
+      "id": "syn-040",
+      "query": "Which clusters are oversized?",
+      "expected_intent": "optimization",
+      "category": "standard",
+      "pipeline": null,
+      "source": "template"
+    },
+    {
+      "id": "syn-041",
+      "query": "How can runtime performance be improved?",
+      "expected_intent": "optimization",
+      "category": "standard",
+      "pipeline": null,
+      "source": "template"
+    },
+    {
+      "id": "syn-042",
+      "query": "Which jobs consume high resources?",
+      "expected_intent": "optimization",
+      "category": "standard",
+      "pipeline": null,
+      "source": "template"
+    },
+    {
+      "id": "syn-043",
+      "query": "Can we save money on cdc_cluster_01?",
+      "expected_intent": "optimization",
+      "category": "standard",
+      "pipeline": null,
+      "source": "template"
+    },
+    {
+      "id": "syn-044",
+      "query": "Can we save money on finance_cluster_01?",
+      "expected_intent": "optimization",
+      "category": "standard",
+      "pipeline": null,
+      "source": "template"
+    },
+    {
+      "id": "syn-045",
+      "query": "Can we save money on geo_cluster_01?",
+      "expected_intent": "optimization",
+      "category": "standard",
+      "pipeline": null,
+      "source": "template"
+    },
+    {
+      "id": "syn-046",
+      "query": "Can we save money on inventory_cluster_02?",
+      "expected_intent": "optimization",
+      "category": "standard",
+      "pipeline": null,
+      "source": "template"
+    },
+    {
+      "id": "syn-047",
+      "query": "Can we save money on iot_cluster_01?",
+      "expected_intent": "optimization",
+      "category": "standard",
+      "pipeline": null,
+      "source": "template"
+    },
+    {
+      "id": "syn-048",
+      "query": "Can we save money on iot_cluster_02?",
+      "expected_intent": "optimization",
+      "category": "standard",
+      "pipeline": null,
+      "source": "template"
+    },
+    {
+      "id": "syn-049",
+      "query": "Can we save money on logistics_cluster_01?",
+      "expected_intent": "optimization",
+      "category": "standard",
+      "pipeline": null,
+      "source": "template"
+    },
+    {
+      "id": "syn-050",
+      "query": "Can we save money on marketing_cluster_02?",
+      "expected_intent": "optimization",
+      "category": "standard",
+      "pipeline": null,
+      "source": "template"
+    },
+    {
+      "id": "syn-051",
+      "query": "What is the weather today?",
+      "expected_intent": "pipeline_status",
+      "category": "edge_case",
+      "pipeline": null,
+      "source": "template"
+    },
+    {
+      "id": "syn-052",
+      "query": "",
+      "expected_intent": "pipeline_status",
+      "category": "malformed",
+      "pipeline": null,
+      "source": "template"
+    },
+    {
+      "id": "syn-053",
+      "query": "Tell me about pipeline xyz_nonexistent_999",
+      "expected_intent": "pipeline_status",
+      "category": "edge_case",
+      "pipeline": null,
+      "source": "template"
+    },
+    {
+      "id": "syn-054",
+      "query": "Why did everything fail and also optimize all clusters?",
+      "expected_intent": "failure_diagnosis",
+      "category": "edge_case",
+      "pipeline": null,
+      "source": "template"
+    },
+    {
+      "id": "syn-055",
+      "query": "STATUS??? pricing_engine_refresh !!!",
+      "expected_intent": "pipeline_status",
+      "category": "edge_case",
+      "pipeline": "pricing_engine_refresh",
+      "source": "template"
+    }
+  ]
+}

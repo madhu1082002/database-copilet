@@ -96,6 +96,26 @@ pip install -r requirements.txt
 pytest tests/ -v
 ```
 
+### AI-Assisted QA (pSIDDHI requirement)
+
+Mock data validation + 50+ test query scenarios + hallucination measurement:
+
+```powershell
+# Validate 50+ mock pipeline scenarios
+py scripts/validate_mock_data.py
+
+# Regenerate 55+ test queries from mock data
+py scripts/build_test_queries.py
+
+# Run full AI QA report (offline, rule-based scoring)
+py qa/run_ai_qa.py
+
+# Optional: Gemini scoring + synthetic query generation
+py qa/run_ai_qa.py --gemini-synthetic 10 --use-gemini-scoring
+```
+
+Reports are written to `reports/ai_qa_report.json`.
+
 ## Project Structure
 
 ```
@@ -107,6 +127,10 @@ dataops-copilot/
 │   ├── models/database.py  # SQLite schema & logging
 │   └── services/           # AI, intent, data retrieval
 ├── frontend/               # Dashboard + chat UI
+├── data/                   # 50+ test query scenarios for AI QA
+├── qa/                     # AI-assisted QA (hallucination, scoring, synthetic queries)
+├── reports/                # Generated QA reports (gitignored)
+├── scripts/                # Seed, validate, build test queries
 ├── tests/                  # Pytest test suite
 └── requirements.txt
 ```

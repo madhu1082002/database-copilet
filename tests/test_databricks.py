@@ -37,9 +37,10 @@ def test_map_run_to_pipeline():
     assert pipeline["source"] == "databricks_jobs_api"
 
 
+@patch("services.databricks_service.get_pipelines_from_table", return_value=[])
 @patch("services.databricks_service.is_configured", return_value=True)
 @patch("services.databricks_service._get")
-def test_get_job_runs(mock_get, _configured):
+def test_get_job_runs(mock_get, _configured, _tables):
     mock_get.return_value = {
         "runs": [
             {

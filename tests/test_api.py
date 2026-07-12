@@ -65,7 +65,7 @@ def test_dashboard(client):
     assert res.status_code == 200
     data = res.get_json()
     assert "total_pipelines" in data
-    assert data["total_pipelines"] >= 10
+    assert data["total_pipelines"] >= 50
 
 
 def test_query_pipeline_status(client):
