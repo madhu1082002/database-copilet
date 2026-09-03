@@ -139,10 +139,15 @@
               "type": "object",
               "properties": {
                 "query": { "type": "string" },
+                "query_id": { "type": "integer" },
                 "intent": { "type": "string" },
                 "pipeline": { "type": "string" },
                 "response": { "type": "string" },
-                "category": { "type": "string" }
+                "category": { "type": "string" },
+                "confidence": { "type": "number" },
+                "sources": { "type": "array", "items": { "type": "object" } },
+                "cached": { "type": "boolean" },
+                "anomaly": { "type": "object" }
               }
             }
           }
@@ -171,6 +176,18 @@
         "responses": {
           "200": {
             "description": "Feedback saved",
+            "schema": { "type": "object" }
+          }
+        }
+      }
+    },
+    "/qa/anomaly": {
+      "get": {
+        "summary": "Output anomaly check on recent answers",
+        "operationId": "GetAnomalyStatus",
+        "responses": {
+          "200": {
+            "description": "Anomaly metrics",
             "schema": { "type": "object" }
           }
         }

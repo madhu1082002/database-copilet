@@ -1,0 +1,149 @@
+{
+  "info": {
+    "name": "DataOps Copilot + Pipeline Data Portal",
+    "description": "Flask API tests for S3-D-08 DataOps Copilot (port 5000) and Pipeline Data Portal (port 5001).",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "copilot_base", "value": "http://127.0.0.1:5000" },
+    { "key": "portal_base", "value": "http://127.0.0.1:5001" }
+  ],
+  "item": [
+    {
+      "name": "Copilot",
+      "item": [
+        {
+          "name": "Health",
+          "request": { "method": "GET", "url": "{{copilot_base}}/health" }
+        },
+        {
+          "name": "Databricks status",
+          "request": { "method": "GET", "url": "{{copilot_base}}/databricks/status" }
+        },
+        {
+          "name": "Dashboard",
+          "request": { "method": "GET", "url": "{{copilot_base}}/dashboard" }
+        },
+        {
+          "name": "Pipeline status",
+          "request": { "method": "GET", "url": "{{copilot_base}}/pipeline-status" }
+        },
+        {
+          "name": "Pipeline status filtered",
+          "request": {
+            "method": "GET",
+            "url": "{{copilot_base}}/pipeline-status?pipeline=customer_ingestion"
+          }
+        },
+        {
+          "name": "Failure diagnosis",
+          "request": { "method": "GET", "url": "{{copilot_base}}/failure-diagnosis" }
+        },
+        {
+          "name": "Optimization",
+          "request": { "method": "GET", "url": "{{copilot_base}}/optimization" }
+        },
+        {
+          "name": "Query — pipeline status",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status 200', () => pm.response.to.have.status(200));",
+                  "const body = pm.response.json();",
+                  "pm.test('has query_id', () => pm.expect(body.query_id).to.be.a('number'));",
+                  "pm.collectionVariables.set('last_query_id', String(body.query_id));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"query\": \"Did sales_etl run today?\"\n}"
+            },
+            "url": "{{copilot_base}}/query"
+          }
+        },
+        {
+          "name": "Query — failure diagnosis",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"query\": \"Why did customer_ingestion fail?\"\n}"
+            },
+            "url": "{{copilot_base}}/query"
+          }
+        },
+        {
+          "name": "Query — optimization",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"query\": \"Can we reduce compute costs?\"\n}"
+            },
+            "url": "{{copilot_base}}/query"
+          }
+        },
+        {
+          "name": "Query — empty (400)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{}" },
+            "url": "{{copilot_base}}/query"
+          }
+        },
+        {
+          "name": "Feedback thumbs up",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"query_id\": {{last_query_id}},\n  \"feedback\": \"up\"\n}"
+            },
+            "url": "{{copilot_base}}/feedback"
+          }
+        },
+        {
+          "name": "QA anomaly",
+          "request": { "method": "GET", "url": "{{copilot_base}}/qa/anomaly" }
+        }
+      ]
+    },
+    {
+      "name": "Portal",
+      "item": [
+        {
+          "name": "Health",
+          "request": { "method": "GET", "url": "{{portal_base}}/health" }
+        },
+        {
+          "name": "Databricks status",
+          "request": { "method": "GET", "url": "{{portal_base}}/databricks/status" }
+        },
+        {
+          "name": "List pipelines",
+          "request": { "method": "GET", "url": "{{portal_base}}/pipelines" }
+        },
+        {
+          "name": "List failures",
+          "request": { "method": "GET", "url": "{{portal_base}}/failures" }
+        },
+        {
+          "name": "List clusters",
+          "request": { "method": "GET", "url": "{{portal_base}}/clusters" }
+        }
+      ]
+    }
+  ]
+}

@@ -275,54 +275,33 @@ def _map_run_to_failure(run: dict) -> dict:
     }
 
 
-def _estimate_cpu_from_cluster(cluster: dict) -> float:
-    workers = cluster.get("num_workers") or 0
-    autoscale = cluster.get("autoscale") or {}
-    max_workers = autoscale.get("max_workers") or workers
-    active_workers = max(workers, max_workers)
-
-    if active_workers >= 8:
-        return 75.0
-    if active_workers >= 4:
-        return 55.0
-    if active_workers >= 2:
-        return 35.0
-    return 18.0
-
-
-def _recommend_node_type(node_type: str, cpu: float) -> tuple[str, int]:
-    if cpu < 25:
-        return "DS3_v2", 5000
-    if cpu < 45:
-        return "DS3_v2", 3500
-    if cpu > 80:
-        return "DS5_v2", 0
-    return node_type, 0
-
-
 def _map_cluster_to_optimization(cluster: dict) -> dict:
+    """Map Clusters API records without inventing CPU, memory, or ₹ savings."""
     node_type = cluster.get("node_type_id", "unknown")
-    cpu = _estimate_cpu_from_cluster(cluster)
-    recommended, savings = _recommend_node_type(node_type, cpu)
+    name = cluster.get("cluster_name") or cluster.get("cluster_id")
+    state = cluster.get("state") or "UNKNOWN"
 
     return {
         "cluster_id": cluster.get("cluster_id"),
-        "cluster_name": cluster.get("cluster_name", cluster.get("cluster_id")),
+        "cluster_name": name,
         "instance_type": node_type,
-        "recommended_type": recommended,
-        "avg_cpu_usage": cpu,
-        "avg_memory_usage": min(cpu + 10, 95),
-        "peak_cpu_usage": min(cpu + 20, 99),
-        "peak_memory_usage": min(cpu + 25, 99),
-        "monthly_cost_inr": 8500 if "DS4" in node_type else 6000,
-        "estimated_savings_inr": savings,
+        "recommended_type": None,
+        "avg_cpu_usage": None,
+        "avg_memory_usage": None,
+        "peak_cpu_usage": None,
+        "peak_memory_usage": None,
+        "monthly_cost_inr": None,
+        "estimated_savings_inr": 0,
         "jobs_running": [],
+        "metrics_available": False,
         "recommendation": (
-            f"Cluster '{cluster.get('cluster_name')}' is running on {node_type}. "
-            f"Estimated utilization: {cpu}%."
+            f"Cluster '{name}' is {state} on {node_type}. "
+            "CPU/memory utilization is not returned by the Databricks Clusters API, "
+            "so quantified ₹ savings are not estimated here. "
+            "Use the cluster_metrics Delta table (Pipeline Data Portal) for grounded optimization figures."
         ),
         "source": "databricks_clusters_api",
-        "state": cluster.get("state"),
+        "state": state,
     }
 
 

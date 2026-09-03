@@ -80,7 +80,7 @@ def get_dashboard_summary() -> dict:
     failed = sum(1 for p in pipelines if p["status"] in ("failed", "partial_failure", "unknown"))
     running = sum(1 for p in pipelines if p["status"] == "running")
     clusters = get_optimization_data()
-    savings = sum(c.get("estimated_savings_inr", 0) for c in clusters)
+    savings = sum((c.get("estimated_savings_inr") or 0) for c in clusters)
 
     return {
         "total_pipelines": total,

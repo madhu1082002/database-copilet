@@ -45,3 +45,6 @@ DATABRICKS_WAREHOUSE_ID = os.environ.get("DATABRICKS_WAREHOUSE_ID", "").strip()
 DATABRICKS_CATALOG = os.environ.get("DATABRICKS_CATALOG", "workspace").strip()
 DATABRICKS_SCHEMA = os.environ.get("DATABRICKS_SCHEMA", "dataops_copilot").strip()
 USE_DATABRICKS = os.environ.get("USE_DATABRICKS", "false").lower() == "true"
+
+GEMINI_TIMEOUT_SECONDS = int(os.environ.get("GEMINI_TIMEOUT_SECONDS", "8"))
+CACHE_TTL_SECONDS = int(os.environ.get("CACHE_TTL_SECONDS", "300"))

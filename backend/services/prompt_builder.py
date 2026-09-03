@@ -49,7 +49,7 @@ def build_context_for_intent(intent: str, pipeline_name: str | None, data_servic
 
     if intent == "optimization":
         clusters = data_service.get_optimization_data()
-        undersized = [c for c in clusters if c.get("estimated_savings_inr", 0) > 0]
+        undersized = [c for c in clusters if (c.get("estimated_savings_inr") or 0) > 0]
         return {"clusters": clusters, "optimization_opportunities": undersized}
 
     return {"pipelines": data_service.get_all_pipelines()}

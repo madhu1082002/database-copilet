@@ -1,9 +1,10 @@
 import json
 import logging
+from concurrent.futures import ThreadPoolExecutor, TimeoutError as FuturesTimeout
 
 from google import genai
 
-from config import GEMINI_API_KEYS, GEMINI_MODEL, USE_MOCK_AI
+from config import GEMINI_API_KEYS, GEMINI_MODEL, GEMINI_TIMEOUT_SECONDS, USE_MOCK_AI
 
 logger = logging.getLogger(__name__)
 
@@ -42,12 +43,18 @@ def generate_response(prompt: str, intent: str, context_data: dict) -> str:
         api_key = GEMINI_API_KEYS[key_index]
 
         try:
-            text = _call_gemini(api_key, prompt)
+            with ThreadPoolExecutor(max_workers=1) as pool:
+                future = pool.submit(_call_gemini, api_key, prompt)
+                text = future.result(timeout=GEMINI_TIMEOUT_SECONDS)
             if text:
                 _active_key_index = key_index
                 if attempt > 0:
                     logger.info("Switched to Gemini API key #%d", key_index + 1)
                 return text
+        except FuturesTimeout:
+            logger.warning("Gemini 2.5 Flash key #%d timed out after %ss", key_index + 1, GEMINI_TIMEOUT_SECONDS)
+            if attempt < keys_to_try - 1:
+                continue
         except Exception as e:
             logger.warning("Gemini 2.5 Flash key #%d failed: %s", key_index + 1, e)
             if attempt < keys_to_try - 1:
@@ -119,14 +126,17 @@ def _mock_optimization(context: dict) -> str:
     lines = ["**Optimization Recommendations**\n"]
     total_savings = 0
     for c in opportunities:
-        savings = c.get("estimated_savings_inr", 0)
+        savings = c.get("estimated_savings_inr") or 0
         total_savings += savings
+        cpu = c.get("avg_cpu_usage")
+        cpu_line = f"- Average CPU: {cpu}%\n" if cpu is not None else "- Average CPU: not available in retrieved metrics\n"
+        recommended = c.get("recommended_type") or "n/a"
         lines.append(
-            f"**{c['cluster_name']}** is underutilized.\n"
-            f"- Average CPU: {c['avg_cpu_usage']}%\n"
-            f"- Current: {c['instance_type']} → Recommended: {c['recommended_type']}\n"
+            f"**{c.get('cluster_name') or c.get('cluster_id')}** is underutilized.\n"
+            f"{cpu_line}"
+            f"- Current: {c.get('instance_type')} → Recommended: {recommended}\n"
             f"- Estimated monthly savings: ₹{savings:,}\n"
-            f"- {c['recommendation']}\n"
+            f"- {c.get('recommendation')}\n"
         )
     lines.append(f"\n**Total potential monthly savings: ₹{total_savings:,}**")
     return "\n".join(lines)

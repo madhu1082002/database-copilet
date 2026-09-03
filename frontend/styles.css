@@ -777,6 +777,18 @@ body::before {
   text-transform: capitalize;
 }
 
+.source-ref,
+.cached-tag {
+  display: block;
+  margin-top: 0.45rem;
+  font-size: 0.72rem;
+  color: var(--text-muted);
+}
+
+.cached-tag {
+  color: var(--primary);
+}
+
 .error-card {
   background: var(--danger-bg) !important;
   border-color: var(--danger-border) !important;

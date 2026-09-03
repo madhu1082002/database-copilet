@@ -14,8 +14,11 @@ ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "backend"))
 sys.path.insert(0, str(ROOT))
 
-os.environ["USE_DATABRICKS"] = "false"
-os.environ["USE_MOCK_AI"] = "true"
+os.environ.setdefault("USE_DATABRICKS", "false")
+if "--use-gemini-responses" in sys.argv:
+    os.environ["USE_MOCK_AI"] = "false"
+else:
+    os.environ.setdefault("USE_MOCK_AI", "true")
 
 from qa.hallucination_checker import aggregate_hallucination_rate  # noqa: E402
 from qa.response_scorer import score_response_rule_based, score_response_with_gemini  # noqa: E402
@@ -112,6 +115,7 @@ def main() -> int:
     parser.add_argument("--use-gemini-scoring", action="store_true")
     parser.add_argument("--use-gemini-responses", action="store_true")
     parser.add_argument("--output", type=Path, default=REPORTS_DIR / "ai_qa_report.json")
+    parser.add_argument("--limit", type=int, default=0, help="Evaluate only the first N queries (0 = all)")
     args = parser.parse_args()
 
     queries = load_test_queries(args.queries_file) if args.queries_file.exists() else []
@@ -125,6 +129,9 @@ def main() -> int:
     if not queries:
         print("No queries to evaluate. Run scripts/build_test_queries.py first.", file=sys.stderr)
         return 1
+
+    if args.limit and args.limit > 0:
+        queries = queries[: args.limit]
 
     report = run_qa_suite(
         queries,

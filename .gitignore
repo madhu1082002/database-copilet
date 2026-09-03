@@ -5,3 +5,5 @@ __pycache__/
 backend/dataops.db
 *.db
 reports/
+
+.coverage

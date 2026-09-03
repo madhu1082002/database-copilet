@@ -191,14 +191,32 @@ function appendMessage(role, content, meta = {}) {
     : formatMarkdown(content);
 
   if (meta.intent && role === "assistant") {
-    inner = `<span class="intent-tag">${meta.intent.replace(/_/g, " ")}</span>` + inner;
+    const confidenceLabel =
+      meta.confidence != null ? ` · ${Math.round(meta.confidence * 100)}%` : "";
+    inner = `<span class="intent-tag">${meta.intent.replace(/_/g, " ")}${confidenceLabel}</span>` + inner;
+  }
+
+  if (role === "assistant" && !meta.typing && Array.isArray(meta.sources) && meta.sources.length) {
+    const sourceNames = meta.sources
+      .map((s) => s.name)
+      .filter(Boolean)
+      .slice(0, 4)
+      .join(", ");
+    if (sourceNames) {
+      inner += `<div class="source-ref">Sources: ${sourceNames}</div>`;
+    }
+  }
+
+  if (role === "assistant" && meta.cached) {
+    inner += `<div class="cached-tag">Cached response</div>`;
   }
 
   if (role === "assistant" && !meta.typing) {
+    const queryId = meta.query_id != null ? String(meta.query_id) : "";
     inner += `
       <div class="feedback-row">
-        <button class="feedback-btn" data-feedback="up" title="Helpful">👍 Helpful</button>
-        <button class="feedback-btn" data-feedback="down" title="Not helpful">👎</button>
+        <button class="feedback-btn" data-feedback="up" data-query-id="${queryId}" title="Helpful">👍 Helpful</button>
+        <button class="feedback-btn" data-feedback="down" data-query-id="${queryId}" title="Not helpful">👎</button>
       </div>`;
   }
 
@@ -235,7 +253,13 @@ async function sendQuery(query) {
     if (data.error) {
       appendMessage("assistant", `Error: ${data.error}`);
     } else {
-      appendMessage("assistant", data.response, { intent: data.intent });
+      appendMessage("assistant", data.response, {
+        intent: data.intent,
+        query_id: data.query_id,
+        confidence: data.confidence,
+        sources: data.sources,
+        cached: data.cached,
+      });
     }
   } catch (err) {
     typingEl.remove();
@@ -280,11 +304,24 @@ if (pipelineSearch) {
   });
 }
 
-chatMessages.addEventListener("click", (e) => {
+chatMessages.addEventListener("click", async (e) => {
   const btn = e.target.closest(".feedback-btn");
   if (!btn) return;
   btn.closest(".feedback-row").querySelectorAll(".feedback-btn").forEach((b) => b.classList.remove("active"));
   btn.classList.add("active");
+
+  const queryId = btn.dataset.queryId;
+  if (!queryId) return;
+
+  try {
+    await fetch(`${API_BASE}/feedback`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ query_id: Number(queryId), feedback: btn.dataset.feedback }),
+    });
+  } catch (_err) {
+    /* keep the visual state even if logging fails */
+  }
 });
 
 loadDashboard();

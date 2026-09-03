@@ -20,9 +20,9 @@ CATEGORIES = {
 }
 
 
-def classify_intent(query: str, category_hint: str | None = None) -> str:
+def classify_intent_details(query: str, category_hint: str | None = None) -> tuple[str, float]:
     if category_hint and category_hint in CATEGORIES:
-        return category_hint
+        return category_hint, 1.0
 
     query_lower = query.lower()
     scores = {cat: 0 for cat in CATEGORIES}
@@ -34,5 +34,16 @@ def classify_intent(query: str, category_hint: str | None = None) -> str:
 
     best = max(scores, key=scores.get)
     if scores[best] == 0:
-        return "pipeline_status"
-    return best
+        return "pipeline_status", 0.4
+
+    total = sum(scores.values())
+    confidence = scores[best] / total
+    tied = sum(1 for value in scores.values() if value == scores[best])
+    if tied > 1:
+        confidence *= 0.7
+    return best, round(min(confidence, 1.0), 2)
+
+
+def classify_intent(query: str, category_hint: str | None = None) -> str:
+    intent, _confidence = classify_intent_details(query, category_hint)
+    return intent

@@ -1,0 +1,28 @@
+name: CI
+
+on:
+  push:
+    branches: [main, master, madhu1207]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+      - name: Run pytest with coverage
+        env:
+          USE_MOCK_AI: "true"
+          USE_DATABRICKS: "false"
+        run: |
+          pytest tests/ -v \
+            --cov=app --cov=config --cov=models --cov=services --cov=qa \
+            --cov-report=term-missing \
+            --cov-fail-under=80
+      - name: Validate mock data
+        run: python scripts/validate_mock_data.py

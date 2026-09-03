@@ -1,0 +1,2 @@
+# Optional local tools (not required for CI)
+locust>=2.29.0

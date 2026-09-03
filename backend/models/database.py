@@ -75,18 +75,42 @@ def _load_pipelines_from_json(conn):
     conn.commit()
 
 
-def log_query(query: str, category: str, response: str, intent: str):
+def log_query(query: str, category: str, response: str, intent: str) -> int:
     conn = get_connection()
-    conn.execute(
+    cursor = conn.execute(
         "INSERT INTO query_log (query, category, response, intent, created_at) VALUES (?, ?, ?, ?, ?)",
         (query, category, response, intent, datetime.utcnow().isoformat()),
     )
     conn.commit()
+    query_id = int(cursor.lastrowid)
     conn.close()
+    return query_id
 
 
-def save_feedback(query_id: int, feedback: str):
+def save_feedback(query_id: int, feedback: str) -> bool:
     conn = get_connection()
-    conn.execute("UPDATE query_log SET feedback = ? WHERE id = ?", (feedback, query_id))
+    cursor = conn.execute(
+        "UPDATE query_log SET feedback = ? WHERE id = ?",
+        (feedback, int(query_id)),
+    )
     conn.commit()
+    updated = cursor.rowcount > 0
     conn.close()
+    return updated
+
+
+def get_recent_responses(limit: int = 20) -> list[str]:
+    conn = get_connection()
+    rows = conn.execute(
+        "SELECT response FROM query_log ORDER BY id DESC LIMIT ?",
+        (limit,),
+    ).fetchall()
+    conn.close()
+    return [row["response"] for row in rows]
+
+
+def get_query_by_id(query_id: int) -> dict | None:
+    conn = get_connection()
+    row = conn.execute("SELECT * FROM query_log WHERE id = ?", (int(query_id),)).fetchone()
+    conn.close()
+    return dict(row) if row else None

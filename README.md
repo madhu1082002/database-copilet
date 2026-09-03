@@ -6,17 +6,32 @@ A conversational AI assistant that helps data engineers monitor pipelines, diagn
 
 ## Architecture
 
+See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for the layer diagram and query flow.
+
 ```
-Web UI (Dashboard + Chat)  →  Flask REST API  →  Gemini AI + Mock Pipeline Data
+    Web UI (Dashboard + Chat)  →  Flask REST API  →  Gemini AI + Mock Pipeline Data
 ```
 
 | Layer | Technology |
 |-------|-----------|
-| Frontend | HTML/CSS/JS (web alternative to Power Apps) |
+| Frontend | HTML/CSS/JS web UI (**final demo UI** — Power Apps not used) |
 | Backend | Python Flask |
 | AI Engine | Google Gemini 2.5 Flash (with rule-based mock fallback) |
 | Data (Phase 1) | JSON mock datasets + SQLite query logging |
-| Data (Phase 2) | Databricks Free Edition REST API (job runs, clusters) |
+| Data (Phase 2) | Databricks Free Edition REST API / Delta tables |
+
+## Documentation
+
+| Doc | Path |
+|-----|------|
+| Architecture | [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) |
+| API reference | [docs/API.md](docs/API.md) |
+| User guide | [docs/USER_GUIDE.md](docs/USER_GUIDE.md) |
+| Demo script | [docs/DEMO_SCRIPT.md](docs/DEMO_SCRIPT.md) |
+| QA / coverage report | [docs/QA_REPORT.md](docs/QA_REPORT.md) |
+| Load / &lt;10s evidence | [docs/LOAD_TEST.md](docs/LOAD_TEST.md) |
+| Postman collection | [postman/DataOps_Copilot.postman_collection.json](postman/DataOps_Copilot.postman_collection.json) |
+| Power Apps (not used) | Guide retained for history only — **final demo uses the web UI** |
 
 ## Data Sources
 
@@ -85,16 +100,30 @@ Without API keys, the app uses intelligent rule-based mock responses grounded in
 | GET | `/pipeline-status` | Pipeline run data |
 | GET | `/failure-diagnosis` | Failure logs and root causes |
 | GET | `/optimization` | Cluster metrics and savings |
-| POST | `/query` | Natural-language AI query |
+| POST | `/query` | Natural-language AI query (`query_id`, `confidence`, `sources`) |
 | POST | `/feedback` | Thumbs up/down on responses |
+| GET | `/qa/anomaly` | Output anomaly check on recent answers |
 
 ## Run Tests
 
 ```bash
 cd dataops-copilot
 pip install -r requirements.txt
-pytest tests/ -v
+pytest tests/ -v --cov=app --cov=config --cov=models --cov=services --cov=qa --cov-report=term-missing --cov-fail-under=80
 ```
+
+GitHub Actions runs the same suite on every push (`.github/workflows/ci.yml`).
+
+### Load testing (Locust)
+
+Start Flask, then:
+
+```powershell
+pip install -r requirements-dev.txt
+locust -f locustfile.py --headless -u 10 -r 2 -t 60s --host http://127.0.0.1:5000
+```
+
+Target: p95 response time under 10 seconds per query.
 
 ### AI-Assisted QA (pSIDDHI requirement)
 
